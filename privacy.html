@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Stedy Privacy Policy</title>
-<meta name="description" content="How the Stedy app handles your data: your workouts stay on your iPhone.">
+<meta name="description" content="How the Stedy app handles your data: your workouts live on your iPhone, with an optional backup to your account.">
 <style>
   :root {
     --background: #FAF6F0;
@@ -68,7 +68,7 @@
   <div class="wrap">
     <div class="brand" aria-hidden="true"><span style="height:12px"></span><span style="height:20px"></span><span style="height:28px"></span></div>
     <h1>Privacy <em>Policy</em></h1>
-    <p>Stedy, the weight-progression tracker for iPhone. Effective 4 October 2026, updated 15 October 2026.</p>
+    <p>Stedy, the weight-progression tracker for iPhone. Effective 4 October 2026, updated 26 October 2026.</p>
   </div>
 </header>
 <main>
@@ -76,8 +76,8 @@
     <section class="summary">
       <h2>In short</h2>
       <ul>
-        <li>Your workouts stay on your iPhone. They are never uploaded.</li>
-        <li>An account is optional. If you sign in, we store account details such as your name and email address, and records of your sign-ins (see below).</li>
+        <li>Your workouts are stored on your iPhone. Without an account, they are never uploaded.</li>
+        <li>An account is optional. If you sign in, we store account details such as your name and email address, records of your sign-ins, and a backup of your workouts so you can get them back on a new iPhone (see below).</li>
         <li>The Assistant runs on your iPhone. Your questions aren't sent anywhere.</li>
         <li>No ads and no tracking. Expo, which delivers app updates, counts active installs with a random ID (see App updates). We never sell your data.</li>
         <li>Speed and error reports are sent only if you allow them, and never include your workouts. You can turn them off at any time in Preferences.</li>
@@ -89,12 +89,12 @@
     <p>Person in charge of personal information: Abdallah Almansy, <a href="mailto:steedy.help@gmail.com">steedy.help@gmail.com</a>.</p>
 
     <h2>Data that stays on your iPhone</h2>
-    <p>Everything you log in Stedy is stored only on your iPhone: your workouts, sets, weights and reps, your exercises and day types, how a session felt, and the setup answers you give (such as your unit, goal, experience, body weight, date of birth, sex and build). Your Assistant conversations are also stored only on your iPhone. We never receive any of it.</p>
+    <p>Everything you log in Stedy is stored on your iPhone: your workouts, sets, weights and reps, your exercises and day types, how a session felt, and the setup answers you give (such as your unit, goal, experience, body weight, date of birth, sex and build). Your Assistant conversations are also stored only on your iPhone. Without an account we never receive any of it. If you sign in, a backup of it (not your Assistant conversations or photos) is kept in your account, as described under Account backup.</p>
     <ul>
       <li><strong>Backups you make.</strong> If you export a backup, the file goes wherever you choose to save or send it. We don't receive a copy.</li>
       <li><strong>Photos for share cards.</strong> If you take or choose a photo as the background of a share card, Stedy uses it on your iPhone only and doesn't keep it. It leaves your iPhone only if you share the card. Stedy asks before using the camera; choosing from your library uses Apple's photo picker, so Stedy sees only the photo you pick.</li>
       <li><strong>iCloud Backup.</strong> If you back up your iPhone to iCloud, Apple may include Stedy's data in that backup under Apple's own terms. We can't read it.</li>
-      <li><strong>Deleting.</strong> Deleting the app deletes this data from your iPhone.</li>
+      <li><strong>Deleting.</strong> Deleting the app deletes this data from your iPhone. If you're signed in, your account backup stays in your account until you delete the account.</li>
     </ul>
 
     <h2>The Assistant</h2>
@@ -108,8 +108,12 @@
       <li>with Google, a link to your Google profile photo;</li>
       <li>which service you signed in with, and an account ID.</li>
     </ul>
-    <p>Today, the account only identifies you. Your workouts are not linked to it and stay on your iPhone. The account is there so that later versions of Stedy can sync between your devices; we'll update this policy before that reaches the app. Supabase also records the IP address and device type of each signed-in session; these go when you sign out or delete your account. It also keeps logs of sign-in requests, with IP addresses, for a short time (an hour on our current plan), then deletes them automatically. Signing in is also handled by Apple or Google under their own privacy policies.</p>
-    <p><strong>Deleting your account:</strong> in Stedy, go to Preferences and tap Delete account. This permanently removes your account and its sessions from Supabase. Your workouts stay on your iPhone. Recent sign-in logs expire on their own, as described above.</p>
+    <p>If you sign in, Stedy also keeps a backup of your workouts in your account (see Account backup below). Supabase also records the IP address and device type of each signed-in session; these go when you sign out or delete your account. It also keeps logs of sign-in requests, with IP addresses, for a short time (an hour on our current plan), then deletes them automatically. Signing in is also handled by Apple or Google under their own privacy policies.</p>
+    <p><strong>Deleting your account:</strong> in Stedy, open your profile (the round button at the top left of Home) and tap Delete account. This permanently removes your account, its sessions and your account backup from Supabase. Your workouts stay on your iPhone. Recent sign-in logs expire on their own, as described above.</p>
+
+    <h2>Account backup</h2>
+    <p>If you're signed in, Stedy keeps a backup of your data in your account, so you can get it back on a new iPhone or after reinstalling the app. After each workout you finish, and when you tap Back up now in Preferences, Stedy uploads one backup file to Supabase. It contains your logged workouts, sets, weights and reps, your exercises and day types, how your sessions felt, and your setup answers (such as your unit, goal, experience, training days, date of birth, sex, height, body weight and build). It doesn't contain your Assistant conversations, your profile photo or your progress photos; those stay only on your iPhone.</p>
+    <p>The file is stored privately under your account ID. Through the app, only you, signed in, can read it. We don't look at backups or use them for anything else, and we never share or sell them. There is one copy, replaced each time. When you sign in on an iPhone, Stedy downloads it and adds anything that's missing there; nothing on that iPhone is deleted. Signing out keeps the backup in your account; deleting your account deletes it.</p>
 
     <h2>App updates</h2>
     <p>Stedy checks Expo's update service for small app updates. That request sends technical information, such as the app version and the device platform, along with your IP address, as any internet request does, and a random ID for this installation, made when the app first opens, which Expo uses to count active installs. If an update fails to start, a report about that error goes to Expo. None of this includes your workouts or your account.</p>
@@ -130,11 +134,12 @@
     <p>If you share app analytics with developers in your iPhone's settings, Apple may give us anonymous crash and usage reports. If you test Stedy through TestFlight, Apple shares the crash reports and feedback you choose to send. Apple handles this under its own privacy policy.</p>
 
     <h2>Who handles your data, and where</h2>
-    <p>Supabase and Expo process data for us, and Apple and Google provide sign-in, each under their own privacy and security terms. Supabase stores account data in Canada (Montreal). Expo, which runs the update service and receives speed and error reports, is in the United States. Your data may be processed outside Canada.</p>
+    <p>Supabase and Expo process data for us, and Apple and Google provide sign-in, each under their own privacy and security terms. Supabase stores account data and account backups in Canada (Montreal). Expo, which runs the update service and receives speed and error reports, is in the United States. Your data may be processed outside Canada.</p>
 
     <h2>How long we keep data</h2>
     <ul>
       <li><strong>Account data</strong> (name, email address, Google profile photo link, sign-in service and account ID): until you delete your account.</li>
+      <li><strong>Account backup</strong> (only if you sign in): one copy, replaced after each workout, kept until you delete your account.</li>
       <li><strong>Session records</strong> (IP address and device type): until you sign out or delete your account.</li>
       <li><strong>Sign-in logs</strong> (with IP addresses): kept by Supabase for a short time (an hour on our current plan), then deleted automatically.</li>
       <li><strong>Speed and error reports</strong> (only if you allow them): kept by Expo for at least 60 days; Expo's current plans keep them for 90 days.</li>
@@ -151,7 +156,7 @@
     </ul>
 
     <h2>Your rights</h2>
-    <p>You can see and change everything you've logged in the app itself, and delete it by deleting the app. You can delete your account at any time in Preferences. You can stop speed and error reports at any time in Preferences, under Reports; reports already sent aren't linked to you, so they can't be matched to you for deletion and are removed when Expo's retention period ends. To ask what account data we hold, or for anything else about your data, email <a href="mailto:steedy.help@gmail.com">steedy.help@gmail.com</a> and we'll reply within 30 days. You can also complain to the <a href="https://www.priv.gc.ca/en/report-a-concern/">Office of the Privacy Commissioner of Canada</a> or, in Quebec, the <a href="https://www.cai.gouv.qc.ca/">Commission d'accès à l'information</a>.</p>
+    <p>You can see and change everything you've logged in the app itself, and delete it by deleting the app. You can delete your account, and with it your account backup, at any time from your profile in Stedy. You can stop speed and error reports at any time in Preferences, under Reports; reports already sent aren't linked to you, so they can't be matched to you for deletion and are removed when Expo's retention period ends. To ask what account data we hold, or for anything else about your data, email <a href="mailto:steedy.help@gmail.com">steedy.help@gmail.com</a> and we'll reply within 30 days. You can also complain to the <a href="https://www.priv.gc.ca/en/report-a-concern/">Office of the Privacy Commissioner of Canada</a> or, in Quebec, the <a href="https://www.cai.gouv.qc.ca/">Commission d'accès à l'information</a>.</p>
 
     <h2>Children</h2>
     <p>Stedy is not directed at children under 13, and we don't knowingly collect personal data from them. Using the app doesn't require an account. In Quebec, you must be 14 or older to sign in, or have a parent's or guardian's consent.</p>

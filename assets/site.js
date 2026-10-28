@@ -6,7 +6,8 @@
   // On launch day, put the App Store link here: every [data-store] button then points to it.
   const STORE_URL = '';
 
-  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  // ?calm in the address previews the Reduce Motion version
+  const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches || new URLSearchParams(location.search).has('calm');
   const clamp = (v, a = 0, b = 1) => Math.min(b, Math.max(a, v));
   const range = (p, a, b) => clamp((p - a) / (b - a));
   const lerp = (a, b, t) => a + (b - a) * t;
@@ -29,8 +30,8 @@
   const tpl = document.getElementById('phone-tpl');
   document.querySelectorAll('[data-phone]').forEach((host) => {
     const phone = tpl.content.firstElementChild.cloneNode(true);
-    // the hero's plate is its own element; the small phones show a flat one in the same spot
-    if (host.dataset.phone !== 'hero') phone.querySelector('.plate-slot').appendChild(plateFace('burgundy'));
+    // the hero's plate is its own element (except with Reduce Motion); the small phones show a flat one in the same spot
+    if (host.dataset.phone !== 'hero' || reduceMotion) phone.querySelector('.plate-slot').appendChild(plateFace('burgundy'));
     host.replaceWith(phone);
   });
 
@@ -80,13 +81,70 @@
   const css = (el, name, value) => el.style.setProperty(name, value);
   let gl = null; // the three.js plate, once loaded
 
+  // the line's dim half lights up word by word as you scroll
+  const dimWords = [];
+  copy.querySelectorAll('.dim').forEach((dim) => {
+    const words = dim.textContent.trim().split(/\s+/);
+    dim.textContent = '';
+    words.forEach((word, i) => {
+      const w = document.createElement('span');
+      w.className = 'w';
+      w.textContent = word;
+      dim.append(w, i < words.length - 1 ? ' ' : '');
+      dimWords.push(w);
+    });
+  });
+
   function heroProgress() {
     const r = hero.getBoundingClientRect();
     const total = r.height - innerHeight;
     return total > 0 ? clamp(-r.top / total) : 0;
   }
 
+  // Reduce Motion: nothing travels; the opening fades into the plate scene and back
+  function renderCalm(p) {
+    const vh = innerHeight;
+    const vw = innerWidth;
+    const em = rig.offsetWidth * .0371;
+    const t = easeInOut(range(p, .35, .6));
+    const rigY = Math.max(vh * .605, copy0.offsetTop + copy0.offsetHeight + 48);
+    css(rig, '--rig-y', rigY.toFixed(1) + 'px');
+    css(copy0, '--copy0-o', (1 - t).toFixed(3));
+    css(copy0, '--copy0-y', '0px');
+    copy0.style.pointerEvents = t > .5 ? 'none' : '';
+    css(aurora, '--aurora-y', (vh * .2).toFixed(1) + 'px');
+    css(aurora, '--aurora-o', '.85');
+    css(phoneWrap, '--phone-o', (1 - t).toFixed(3));
+    css(phoneWrap, '--phone-s', '1');
+    if (gl) {
+      gl.set({ cx: stage.clientWidth / 2, cy: vh * .36, d: Math.min(vh * .56, vw * .66, 560), rx: 48, ry: -18, rz: -40, free: 1 });
+      stage.querySelector('.plate-gl').style.opacity = t.toFixed(3);
+    } else {
+      const d0 = em * 14.6;
+      css(plate, '--plate-y', (vh * .36 - (rigY + em * 9.25 + d0 / 2)).toFixed(1) + 'px');
+      css(plate, '--plate-s', (Math.min(vh * .5, vw * .62, 520) / d0).toFixed(4));
+      css(plate3d, '--rx', '40deg');
+      css(plate3d, '--ry', '-16deg');
+      css(plate3d, '--rz', '-38deg');
+      plate.style.opacity = t.toFixed(3);
+    }
+    css(copy, '--copy-o', t.toFixed(3));
+    css(copy, '--copy-y', '0px');
+    css(copy, '--cta-o', t.toFixed(3));
+    css(copy, '--cta-s', '1');
+    copy.classList.toggle('on', t > .5);
+    dimWords.forEach((w) => w.style.setProperty('--wo', '1'));
+    pills.forEach((pill) => {
+      css(pill, '--o', t.toFixed(3));
+      css(pill, '--s', '1');
+      css(pill, '--y', '0px');
+    });
+    css(band, '--dis-y', '0%');
+    band.style.opacity = range(p, .85, 1).toFixed(3);
+  }
+
   function renderHero(p) {
+    if (reduceMotion) return renderCalm(p);
     const vh = innerHeight;
     const vw = innerWidth;
     const em = rig.offsetWidth * .0371; // the phone's own unit (16px at full size)
@@ -139,6 +197,10 @@
     css(copy, '--cta-o', cta.toFixed(3));
     css(copy, '--cta-s', lerp(.92, 1, cta).toFixed(4));
     copy.classList.toggle('on', say > .5);
+    dimWords.forEach((w, i) => {
+      const t = range(p, .7 + .22 * i / dimWords.length, .7 + .22 * (i + 1) / dimWords.length);
+      w.style.setProperty('--wo', (.4 + .6 * t).toFixed(3));
+    });
 
     // 4. the pills pop in around the plate, one after another
     pills.forEach((pill, i) => {
@@ -202,8 +264,8 @@
   import('./plate3d.js')
     .then(async (m) => {
       gl = await m.createHero(stage, { reduceMotion });
-      stage.classList.add('gl');
-      renderHero(shown);
+      renderHero(shown); // draw its first frame, then cross-fade from the CSS plate
+      requestAnimationFrame(() => stage.classList.add('gl'));
       const boxes = [...document.querySelectorAll('.plan-visual')];
       const targets = boxes.map((box) => {
         const canvas = document.createElement('canvas');
@@ -213,7 +275,7 @@
         return { canvas, kind: box.closest('.plan.free') ? 'steel' : 'burgundy', rx: 58, ry: 0, rz: -24 };
       });
       await m.paintStills(targets);
-      boxes.forEach((box) => box.classList.add('gl'));
+      requestAnimationFrame(() => boxes.forEach((box) => box.classList.add('gl')));
     })
     .catch((err) => console.warn('Stedy: the 3D plate could not load, so the flat one stays.', err));
 
@@ -270,6 +332,7 @@
     const i = Number(b.dataset.step);
     b.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') setStep(i); });
     b.addEventListener('click', () => setStep(i));
+    b.addEventListener('focus', () => setStep(i)); // tabbing through the pills
   });
   // phones: the card swiped into view is the lit one
   let rowRaf = 0;
@@ -288,6 +351,9 @@
       setStep(best);
     });
   }, { passive: true });
+
+  // ---------- reviews: hovering, focusing or tapping the moving row pauses it ----------
+  document.querySelectorAll('.marquee').forEach((row) => row.addEventListener('click', () => row.classList.toggle('paused')));
 
   // ---------- questions: one open at a time ----------
   document.querySelectorAll('.qa > button').forEach((btn) => {

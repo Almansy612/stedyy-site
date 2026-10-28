@@ -6,6 +6,15 @@
 <title>Stedy: stop guessing, start progressing</title>
 <meta name="description" content="Stedy is an iPhone app for logging the weight you lift and seeing it go up. Without an account, your logs never leave your phone.">
 <meta name="theme-color" content="#080405">
+<link rel="canonical" href="https://stedyy.com/">
+<!-- how a shared link looks in Messages, WhatsApp, TikTok and the rest -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stedy">
+<meta property="og:url" content="https://stedyy.com/">
+<meta property="og:title" content="Stedy: stop guessing, start progressing">
+<meta property="og:description" content="Log every lift in a few taps. Stedy shows what changed, and with Premium, the weight to try next. For iPhone.">
+<meta property="og:image" content="https://stedyy.com/assets/img/app-icon.png">
+<meta name="twitter:card" content="summary">
 <link rel="icon" href="assets/img/app-icon.png">
 <!-- Draft only: Inter for non-Apple screens. Self-host it before launch so visitors' browsers never contact Google. -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -19,6 +28,9 @@
   "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
 } }
 </script>
+<!-- start fetching the 3D plate's code early, so it's ready by the time the phone shows -->
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js" crossorigin>
+<link rel="modulepreload" href="assets/plate3d.js">
 </head>
 <body>
 
@@ -194,7 +206,7 @@
   <!-- 2. features: a sideways row of panels -->
   <section class="section" id="features" aria-labelledby="features-title">
     <h2 class="sr-only" id="features-title">What Stedy does</h2>
-    <ul class="rail" data-rail>
+    <ul class="rail" data-rail tabindex="0" aria-label="Features, scroll sideways for more">
       <li class="panel">
         <span class="icon-orb"><svg><use href="#i-bolt"/></svg></span>
         <p class="copy"><b>Log in seconds.</b> <span>Tap − or +, then Log set. Made for one hand, between sets.</span></p>
@@ -322,7 +334,7 @@
       <h2 class="h2" id="reviews-title">What lifters say</h2>
       <p class="placeholder-note">Draft: placeholder cards. Real tester quotes go here, with their permission.</p>
     </div>
-    <div class="marquee">
+    <div class="marquee" tabindex="0" aria-label="Reviews. The row moves slowly; focus or tap it to pause.">
       <ul class="marquee-track">
         <li class="review"><div class="who"><span class="avatar">T1</span>Tester name</div><q>Placeholder. A tester's own words go here, quoted exactly.</q><div class="src">On TestFlight<svg><use href="#i-quote"/></svg></div></li>
         <li class="review"><div class="who"><span class="avatar">T2</span>Tester name</div><q>Placeholder for a short quote.</q><div class="src">On TestFlight<svg><use href="#i-quote"/></svg></div></li>

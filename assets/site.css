@@ -20,6 +20,7 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 html { background: var(--ink); color-scheme: dark; -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: no-preference) { html { scroll-behavior: smooth; } }
 body {
   margin: 0;
   background: var(--ink);
@@ -263,8 +264,10 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 }
 
 /* the three.js plate: one canvas over the stage, above the phone and under the words */
-.plate-gl { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 4; pointer-events: none; }
-.stage.gl .hero-plate { visibility: hidden; }
+.plate-gl { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 4; pointer-events: none; opacity: 0; transition: opacity .5s var(--ease); }
+.hero-plate { transition: opacity .5s var(--ease); }
+.stage.gl .plate-gl { opacity: 1; }
+.stage.gl .hero-plate { opacity: 0; }
 
 /* the end of the opening: page colour rising through shrinking dots (drawn by site.js) */
 .dissolve {
@@ -285,6 +288,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   font-size: 28px; font-weight: 500; line-height: 1.2; letter-spacing: -.03em; color: #fff;
 }
 .plate-copy h2 .dim { color: rgba(255, 255, 255, .4); }
+.plate-copy h2 .dim .w { color: rgba(255, 255, 255, var(--wo, .4)); }
 .plate-copy .btn { opacity: var(--cta-o, 0); transform: scale(var(--cta-s, .92)); }
 @media (min-width: 640px) { .plate-copy h2 { font-size: 32px; } }
 @media (min-width: 1024px) { .plate-copy h2 { font-size: 40px; line-height: 48px; } }
@@ -467,8 +471,10 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .plan-visual { position: relative; margin-top: 24px; width: min(540px, 100%); height: 230px; }
 @media (min-width: 900px) { .plan-visual { height: 300px; } }
 .plan-visual .plate3d { position: absolute; left: 6%; top: -6%; width: min(300px, 66vw); --rx: 58deg; --ry: 0deg; --rz: -24deg; }
-.plan-visual .plate-still { position: absolute; left: 6%; top: -6%; width: min(300px, 66vw); aspect-ratio: 1; }
-.plan-visual.gl .plate3d { display: none; }
+.plan-visual .plate-still { position: absolute; left: 6%; top: -6%; width: min(300px, 66vw); aspect-ratio: 1; opacity: 0; transition: opacity .5s var(--ease); }
+.plan-visual .plate3d { transition: opacity .5s var(--ease); }
+.plan-visual.gl .plate-still { opacity: 1; }
+.plan-visual.gl .plate3d { opacity: 0; }
 .plan-visual .glowbed { position: absolute; left: 0; top: 30%; width: 70%; height: 70%; border-radius: 50%; background: radial-gradient(closest-side, rgba(var(--glow), .45), transparent); filter: blur(20px); }
 .plan.free .plan-visual .glowbed { background: radial-gradient(closest-side, rgba(255, 255, 255, .14), transparent); }
 .plan ul { max-width: 460px; }
@@ -486,7 +492,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .reviews-head { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; }
 .marquee { overflow: hidden; }
 .marquee-track { display: flex; gap: 12px; width: max-content; animation: marquee 75s linear infinite; }
-.marquee:hover .marquee-track { animation-play-state: paused; }
+.marquee:hover .marquee-track, .marquee:focus-within .marquee-track, .marquee:focus .marquee-track, .marquee.paused .marquee-track { animation-play-state: paused; }
 @keyframes marquee { to { transform: translateX(calc(-50% - 6px)); } }
 .review {
   display: flex; flex-direction: column; justify-content: space-between;

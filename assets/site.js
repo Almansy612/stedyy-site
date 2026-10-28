@@ -1,5 +1,5 @@
-/* Stedy landing page: builds the plates and phones, runs the scroll-driven opening,
-   the panel rail, the three steps and the questions. No libraries. */
+/* Stedy landing page: builds the phones, runs the scroll-driven opening (with the three.js
+   plate from plate3d.js when the browser can show it), the panel rail, the steps and the questions. */
 (() => {
   'use strict';
 
@@ -29,12 +29,12 @@
   const tpl = document.getElementById('phone-tpl');
   document.querySelectorAll('[data-phone]').forEach((host) => {
     const phone = tpl.content.firstElementChild.cloneNode(true);
-    // the hero's plate is its own 3D element; the small phones show a flat one in the same spot
+    // the hero's plate is its own element; the small phones show a flat one in the same spot
     if (host.dataset.phone !== 'hero') phone.querySelector('.plate-slot').appendChild(plateFace('burgundy'));
     host.replaceWith(phone);
   });
 
-  // ---------- 3D plates: two faces with stacked discs between them for the thickness ----------
+  // ---------- CSS plates: the stand-in until (or unless) the three.js plate is ready ----------
   const EDGES = 12;
   document.querySelectorAll('[data-plate]').forEach((host) => {
     const kind = host.dataset.plate;
@@ -69,6 +69,7 @@
   const hero = document.querySelector('.hero');
   const stage = hero.querySelector('.stage');
   const aurora = stage.querySelector('.aurora');
+  const band = stage.querySelector('.dissolve');
   const copy0 = stage.querySelector('.hero-copy');
   const rig = stage.querySelector('.rig');
   const phoneWrap = rig.querySelector('.phone-wrap');
@@ -77,6 +78,7 @@
   const copy = stage.querySelector('.plate-copy');
   const pills = [...stage.querySelectorAll('.pill')];
   const css = (el, name, value) => el.style.setProperty(name, value);
+  let gl = null; // the three.js plate, once loaded
 
   function heroProgress() {
     const r = hero.getBoundingClientRect();
@@ -104,18 +106,27 @@
     css(aurora, '--aurora-y', (rigY - vh * .115).toFixed(1) + 'px');
     css(aurora, '--aurora-o', lerp(.75, 1, range(p, .05, .3)).toFixed(3));
 
-    // 2. the plate leaves the screen: it grows, rises and tips toward you while the phone fades
+    // 2. the plate leaves the screen: it grows, rises and tips back while the phone fades
     const lift = easeInOut(range(p, .3, .58));
-    const d0 = em * 14.6;
-    const d1 = Math.min(vh * .5, vw * .62, 520);
-    const center0 = rigY + em * 9.25 + d0 / 2;
-    css(plate, '--plate-y', (lerp(0, vh * .36 - center0, lift)).toFixed(1) + 'px');
-    css(plate, '--plate-s', lerp(1, d1 / d0, lift).toFixed(4));
     const tilt = easeInOut(range(p, .36, .72));
-    css(plate3d, '--rx', (lerp(0, 40, tilt)).toFixed(2) + 'deg');
-    css(plate3d, '--ry', (lerp(0, -16, tilt)).toFixed(2) + 'deg');
-    css(plate3d, '--rz', (lerp(0, -38, tilt) - 50 * range(p, .5, 1)).toFixed(2) + 'deg'); // a slow turn on its axle
-    css(plate3d, '--sheen', lerp(88, 12, range(p, .3, .95)).toFixed(1) + '%');
+    const d0 = em * 14.6;
+    const center0 = rigY + em * 9.25 + d0 / 2;
+    const spin = lerp(0, -40, tilt) - 50 * range(p, .5, 1); // it turns on its axle as you scroll
+    if (gl) {
+      const d1 = Math.min(vh * .56, vw * .66, 560);
+      gl.set({
+        cx: stage.clientWidth / 2, cy: lerp(center0, vh * .36, lift), d: lerp(d0, d1, lift),
+        rx: lerp(0, 48, tilt), ry: lerp(0, -18, tilt), rz: spin, free: lift,
+      });
+    } else {
+      const d1 = Math.min(vh * .5, vw * .62, 520);
+      css(plate, '--plate-y', lerp(0, vh * .36 - center0, lift).toFixed(1) + 'px');
+      css(plate, '--plate-s', lerp(1, d1 / d0, lift).toFixed(4));
+      css(plate3d, '--rx', lerp(0, 40, tilt).toFixed(2) + 'deg');
+      css(plate3d, '--ry', lerp(0, -16, tilt).toFixed(2) + 'deg');
+      css(plate3d, '--rz', spin.toFixed(2) + 'deg');
+      css(plate3d, '--sheen', lerp(88, 12, range(p, .3, .95)).toFixed(1) + '%');
+    }
     const fade = easeInOut(range(p, .36, .56));
     css(phoneWrap, '--phone-o', (1 - fade).toFixed(3));
     css(phoneWrap, '--phone-s', lerp(1, .92, easeInOut(range(p, .34, .58))).toFixed(4));
@@ -136,7 +147,40 @@
       css(pill, '--s', lerp(.6, 1, easeOutBack(t)).toFixed(4));
       css(pill, '--y', lerp(12, 0, easeOut(t)).toFixed(1) + 'px');
     });
+
+    // 5. the end: darkness rises from the bottom through dots that shrink, so the glow fades into the page
+    css(band, '--dis-y', (100 * (1 - easeInOut(range(p, .78, 1)))).toFixed(2) + '%');
   }
+
+  // the dissolve band: solid page colour with round holes that get smaller toward the bottom
+  let bandSize = '';
+  function drawBand() {
+    const w = band.clientWidth;
+    const h = band.clientHeight;
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    if (!w || !h || bandSize === `${w}x${h}x${dpr}`) return;
+    bandSize = `${w}x${h}x${dpr}`;
+    band.width = Math.round(w * dpr);
+    band.height = Math.round(h * dpr);
+    const g = band.getContext('2d');
+    g.setTransform(dpr, 0, 0, dpr, 0, 0);
+    g.fillStyle = '#080405';
+    g.fillRect(0, 0, w, h);
+    g.globalCompositeOperation = 'destination-out';
+    const step = 4; // the same spacing as the glow's grain
+    for (let y = step / 2; y < h; y += step) {
+      const r = step * .76 * Math.pow(1 - y / h, 1.5); // overlapping at the top, gone at the bottom
+      if (r < .12) break;
+      g.beginPath();
+      for (let x = step / 2; x < w + step; x += step) {
+        g.moveTo(x + r, y);
+        g.arc(x, y, r, 0, Math.PI * 2);
+      }
+      g.fill();
+    }
+    g.globalCompositeOperation = 'source-over';
+  }
+  drawBand();
 
   // eased toward the scroll position each frame, so wheel steps glide instead of jump
   let target = heroProgress();
@@ -153,6 +197,25 @@
     if (!heroRaf) heroRaf = requestAnimationFrame(heroTick);
   }
   renderHero(shown);
+
+  // the real 3D plate: three.js loads after the page; until then, or without WebGL, the CSS plate shows
+  import('./plate3d.js')
+    .then(async (m) => {
+      gl = await m.createHero(stage, { reduceMotion });
+      stage.classList.add('gl');
+      renderHero(shown);
+      const boxes = [...document.querySelectorAll('.plan-visual')];
+      const targets = boxes.map((box) => {
+        const canvas = document.createElement('canvas');
+        canvas.className = 'plate-still';
+        canvas.setAttribute('aria-hidden', 'true');
+        box.appendChild(canvas);
+        return { canvas, kind: box.closest('.plan.free') ? 'steel' : 'burgundy', rx: 58, ry: 0, rz: -24 };
+      });
+      await m.paintStills(targets);
+      boxes.forEach((box) => box.classList.add('gl'));
+    })
+    .catch((err) => console.warn('Stedy: the 3D plate could not load, so the flat one stays.', err));
 
   // ---------- feature rail: drag with a mouse too ----------
   document.querySelectorAll('[data-rail]').forEach((rail) => {
@@ -184,14 +247,13 @@
     rail.addEventListener('click', (e) => { if (moved) e.preventDefault(); }, true);
   });
 
-  // ---------- three steps: the one in view lights up ----------
+  // ---------- three steps: the one under the cursor lights up ----------
   const stepsSec = document.getElementById('start');
   const stepsRow = stepsSec.querySelector('.steps-row');
   const steps = [...stepsSec.querySelectorAll('.step')];
   const stepPills = [...stepsSec.querySelectorAll('.step-pill')];
   const trackFill = stepsSec.querySelector('.track i');
   let currentStep = -1;
-  let lastComputed = -1;
   function setStep(i) {
     if (i === currentStep) return;
     currentStep = i;
@@ -199,16 +261,33 @@
     stepPills.forEach((b, k) => (k === i ? b.setAttribute('aria-current', 'step') : b.removeAttribute('aria-current')));
     trackFill.style.setProperty('--track', i * 50 + '%');
   }
-  function stepsFromScroll() {
-    const r = stepsRow.getBoundingClientRect();
-    const t = clamp((innerHeight * .85 - (r.top + r.height / 2)) / (innerHeight * .6));
-    const i = t < 1 / 3 ? 0 : t < 2 / 3 ? 1 : 2;
-    if (i !== lastComputed) { // a tapped pill stays lit until scrolling moves to another step
-      lastComputed = i;
-      setStep(i);
-    }
-  }
-  stepPills.forEach((b) => b.addEventListener('click', () => setStep(Number(b.dataset.step))));
+  setStep(0);
+  steps.forEach((el, i) => {
+    el.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') setStep(i); });
+    el.addEventListener('click', () => setStep(i)); // taps on touch screens
+  });
+  stepPills.forEach((b) => {
+    const i = Number(b.dataset.step);
+    b.addEventListener('pointerenter', (e) => { if (e.pointerType === 'mouse') setStep(i); });
+    b.addEventListener('click', () => setStep(i));
+  });
+  // phones: the card swiped into view is the lit one
+  let rowRaf = 0;
+  stepsRow.addEventListener('scroll', () => {
+    if (rowRaf) return;
+    rowRaf = requestAnimationFrame(() => {
+      rowRaf = 0;
+      const mid = stepsRow.getBoundingClientRect().left + stepsRow.clientWidth / 2;
+      let best = 0;
+      let bestDist = Infinity;
+      steps.forEach((el, k) => {
+        const r = el.getBoundingClientRect();
+        const dist = Math.abs(r.left + r.width / 2 - mid);
+        if (dist < bestDist) { best = k; bestDist = dist; }
+      });
+      setStep(best);
+    });
+  }, { passive: true });
 
   // ---------- questions: one open at a time ----------
   document.querySelectorAll('.qa > button').forEach((btn) => {
@@ -225,21 +304,12 @@
     });
   });
 
-  // ---------- one scroll listener for everything ----------
-  let scrollRaf = 0;
-  function onScroll() {
-    if (scrollRaf) return;
-    scrollRaf = requestAnimationFrame(() => {
-      scrollRaf = 0;
-      heroKick();
-      stepsFromScroll();
-    });
-  }
-  addEventListener('scroll', onScroll, { passive: true });
+  // ---------- one scroll listener for the opening ----------
+  addEventListener('scroll', heroKick, { passive: true });
   addEventListener('resize', () => {
+    if (gl) gl.resize();
+    drawBand();
     shown = target = heroProgress(); // no easing on resize: jump straight to the right frame
     renderHero(shown);
-    stepsFromScroll();
   });
-  stepsFromScroll();
 })();

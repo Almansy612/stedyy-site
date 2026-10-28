@@ -262,6 +262,16 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   will-change: transform;
 }
 
+/* the three.js plate: one canvas over the stage, above the phone and under the words */
+.plate-gl { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 4; pointer-events: none; }
+.stage.gl .hero-plate { visibility: hidden; }
+
+/* the end of the opening: page colour rising through shrinking dots (drawn by site.js) */
+.dissolve {
+  position: absolute; left: 0; bottom: 0; z-index: 1; width: 100%; height: 36svh; pointer-events: none;
+  transform: translateY(var(--dis-y, 100%)); will-change: transform;
+}
+
 /* the line under the plate, then the pills around it */
 .plate-copy {
   position: absolute; left: 0; right: 0; z-index: 5; top: 65.7svh;
@@ -457,6 +467,8 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .plan-visual { position: relative; margin-top: 24px; width: min(540px, 100%); height: 230px; }
 @media (min-width: 900px) { .plan-visual { height: 300px; } }
 .plan-visual .plate3d { position: absolute; left: 6%; top: -6%; width: min(300px, 66vw); --rx: 58deg; --ry: 0deg; --rz: -24deg; }
+.plan-visual .plate-still { position: absolute; left: 6%; top: -6%; width: min(300px, 66vw); aspect-ratio: 1; }
+.plan-visual.gl .plate3d { display: none; }
 .plan-visual .glowbed { position: absolute; left: 0; top: 30%; width: 70%; height: 70%; border-radius: 50%; background: radial-gradient(closest-side, rgba(var(--glow), .45), transparent); filter: blur(20px); }
 .plan.free .plan-visual .glowbed { background: radial-gradient(closest-side, rgba(255, 255, 255, .14), transparent); }
 .plan ul { max-width: 460px; }

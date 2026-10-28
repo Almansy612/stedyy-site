@@ -4,6 +4,7 @@ import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
 const FONT = '-apple-system, "SF Pro Display", Inter, "Segoe UI", sans-serif';
+const MARK = 'M0 322A90 90 0 0 1 180 322L180 553A16.5 16.5 0 0 0 213 553L213 206A86 86 0 0 1 385 206L385 498A16 16 0 0 0 417 498L417 93.5A93.5 93.5 0 0 1 604 93.5L604 500C604 555 536 612 476 636C376 676 276 691 176 691C86 691 0 635 0 555Z';
 const rad = THREE.MathUtils.degToRad;
 
 // faceShade darkens the recessed face a touch, so the raised rim stands out
@@ -57,17 +58,13 @@ function faceDecal(look, anisotropy) {
   g.fillStyle = look.glyph;
   g.strokeStyle = look.glyph;
 
-  // the logo's three rising bars, above the hub
-  const bw = .046 * unit;
-  const gap = .019 * unit;
-  const base = mid - .45 * unit;
-  let x = mid - (3 * bw + 2 * gap) / 2;
-  for (const h of [.069, .107, .151]) {
-    g.beginPath();
-    g.roundRect(x, base - h * unit, bw, h * unit, bw / 2);
-    g.fill();
-    x += bw + gap;
-  }
+  // Stedy's mark, the fork (D-109), above the hub
+  const markScale = .165 * unit / 691; // the mark's own box is 604 x 691
+  g.save();
+  g.translate(mid - 604 * markScale / 2, mid - .45 * unit - 691 * markScale);
+  g.scale(markScale, markScale);
+  g.fill(new Path2D(MARK));
+  g.restore();
 
   // the weight, and the name spaced out under it
   g.textAlign = 'center';

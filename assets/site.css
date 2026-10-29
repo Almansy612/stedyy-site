@@ -102,7 +102,8 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   padding: 0 var(--gutter);
 }
 .logo { display: inline-flex; align-items: center; gap: 9px; height: 28px; }
-.logo img { width: 32px; height: 32px; border-radius: 7.5px; } /* the app icon (D-112) as the logo */
+/* Sisyphus (D-112) with no background; a hairline of the art's cream keeps his black figure on the dark page */
+.logo img { width: auto; height: 40px; filter: drop-shadow(0 0 1px rgba(243, 217, 181, .8)); }
 .logo span { font-size: 25px; font-weight: 600; letter-spacing: -.035em; line-height: 1; }
 
 .nav-pill {
@@ -577,7 +578,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 .fill .store-card { background: linear-gradient(#0a0507, #24060f); border: 1px solid rgba(255, 255, 255, .1); }
 .store-card .ico { width: 29.33cqw; height: 29.33cqw; border-radius: 6.9cqw; flex: none; }
 .wire .store-card .ico { border: 1px solid rgba(255, 255, 255, .8); }
-.fill .store-card .ico { background: url("img/app-icon.png") center / cover; }
+.fill .store-card .ico { background: url("img/app-icon.png?v=20261029") center / cover; }
 .store-card b { display: block; font-size: 7cqw; font-weight: 600; letter-spacing: -.02em; }
 .store-card small { display: block; font-size: 4.2cqw; color: rgba(255, 255, 255, .5); }
 .store-card .get { display: inline-block; margin-top: 3cqw; padding: 1.67cqw 3.67cqw; border-radius: 4.83cqw; font-size: 4.67cqw; font-weight: 600; text-transform: uppercase; }

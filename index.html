@@ -22,7 +22,7 @@
   "applicationCategory": "HealthApplication",
   "description": "A gym workout tracker for iPhone: log the weight for every lift, see what changed, and with Premium, the weight to try next.",
   "url": "https://stedyy.com/",
-  "image": "https://stedyy.com/assets/img/og-icon.png"
+  "image": "https://stedyy.com/assets/img/og-icon.png?v=20261029"
 }]
 </script>
 <meta name="theme-color" content="#080405">
@@ -33,14 +33,17 @@
 <meta property="og:url" content="https://stedyy.com/">
 <meta property="og:title" content="Stedy: Gym Workout Tracker for iPhone">
 <meta property="og:description" content="Log every lift in a few taps. Stedy shows what changed, and with Premium, the weight to try next. For iPhone.">
-<meta property="og:image" content="https://stedyy.com/assets/img/og-icon.png">
+<meta property="og:image" content="https://stedyy.com/assets/img/og-icon.png?v=20261029">
 <meta name="twitter:card" content="summary">
 <!-- the app icon, Sisyphus on pottery cream (D-112), as the tab icon and the iPhone "Add to Home Screen" icon -->
-<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
-<link rel="icon" type="image/png" sizes="192x192" href="assets/img/icon-192.png">
-<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png?v=20261029">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/img/icon-192.png?v=20261029">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png?v=20261029">
 <link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-<link rel="stylesheet" href="assets/site.css">
+<!-- ?v= is the release: change it whenever a file it's on changes (here, in site.css, site.js, plate3d.js,
+     privacy.html and terms.html), so browsers fetch the new files with the new page instead of reusing
+     their cached copies for up to 10 minutes (GitHub Pages' max-age) -->
+<link rel="stylesheet" href="assets/site.css?v=20261029">
 <!-- three.js (pinned) draws the 3D weight plate; plate3d.js imports it by these names -->
 <script type="importmap">
 { "imports": {
@@ -50,7 +53,7 @@
 </script>
 <!-- start fetching the 3D plate's code early, so it's ready by the time the phone shows -->
 <link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js" crossorigin>
-<link rel="modulepreload" href="assets/plate3d.js">
+<link rel="modulepreload" href="assets/plate3d.js?v=20261029">
 </head>
 <body>
 
@@ -79,8 +82,8 @@
     <circle cx="200" cy="200" r="152" fill="url(#pb-face)"/>
     <circle cx="200" cy="200" r="152" fill="none" stroke="#000" stroke-opacity=".45" stroke-width="3"/>
     <circle cx="200" cy="200" r="153.5" fill="none" stroke="#fff" stroke-opacity=".12" stroke-width="1.2"/>
-    <!-- Stedy's mark, Sisyphus lifting the plate (D-112), above the hub -->
-    <image href="assets/img/logo-sisyphus.png" x="163.6" y="48" width="72.8" height="90"/>
+    <!-- Stedy's mark (D-112): Sisyphus climbing ground that follows the plate's circle; it covers 1.6x the radius -->
+    <image href="assets/img/plate-mark.png?v=20261029" x="40" y="40" width="320" height="320"/>
     <text x="200" y="300" text-anchor="middle" font-family="-apple-system, 'SF Pro Display', Inter, 'Segoe UI', sans-serif" font-size="30" font-weight="700" letter-spacing="2" fill="#fff" fill-opacity=".85">20 KG</text>
     <text x="200" y="326" text-anchor="middle" font-family="-apple-system, 'SF Pro Display', Inter, 'Segoe UI', sans-serif" font-size="12" font-weight="600" letter-spacing="5" fill="#fff" fill-opacity=".55">STEDY</text>
     <circle cx="200" cy="200" r="60" fill="url(#pl-steel)"/>
@@ -99,7 +102,7 @@
     <circle cx="200" cy="200" r="152" fill="url(#ps-face)"/>
     <circle cx="200" cy="200" r="152" fill="none" stroke="#000" stroke-opacity=".3" stroke-width="3"/>
     <circle cx="200" cy="200" r="153.5" fill="none" stroke="#fff" stroke-opacity=".4" stroke-width="1.2"/>
-    <image href="assets/img/logo-sisyphus.png" x="163.6" y="48" width="72.8" height="90"/>
+    <image href="assets/img/plate-mark.png?v=20261029" x="40" y="40" width="320" height="320"/>
     <text x="200" y="300" text-anchor="middle" font-family="-apple-system, 'SF Pro Display', Inter, 'Segoe UI', sans-serif" font-size="30" font-weight="700" letter-spacing="2" fill="#2b2629" fill-opacity=".8">20 KG</text>
     <text x="200" y="326" text-anchor="middle" font-family="-apple-system, 'SF Pro Display', Inter, 'Segoe UI', sans-serif" font-size="12" font-weight="600" letter-spacing="5" fill="#2b2629" fill-opacity=".55">STEDY</text>
     <circle cx="200" cy="200" r="60" fill="url(#pl-steel)"/>
@@ -167,7 +170,7 @@
 
 <header class="site-header">
   <div class="bar">
-    <a class="logo" href="#top" aria-label="Stedy home"><img src="assets/img/app-icon.png" alt=""><span>Stedy</span></a>
+    <a class="logo" href="#top" aria-label="Stedy home"><img src="assets/img/logo-sisyphus.png?v=20261029" width="32" height="40" alt=""><span>Stedy</span></a>
     <nav class="nav-pill" aria-label="Main">
       <a href="#top">Home</a>
       <a href="#features">Features</a>
@@ -268,7 +271,7 @@
         <div class="light" aria-hidden="true"></div>
         <div class="mock" aria-hidden="true">
           <div class="discs">
-            <span class="disc disc-cream"><img src="assets/img/logo-sisyphus.png" alt=""></span>
+            <span class="disc disc-cream"><img src="assets/img/logo-sisyphus.png?v=20261029" alt=""></span>
             <span class="disc"><svg viewBox="0 0 24 24"><use href="#i-heart-fill"/></svg></span>
           </div>
         </div>
@@ -454,7 +457,7 @@
     <div class="cta">
       <div class="grain" aria-hidden="true"></div>
       <div class="cta-text">
-        <img src="assets/img/app-icon.png" alt="">
+        <img src="assets/img/app-icon.png?v=20261029" alt="">
         <h2 id="cta-title">Ready to stop guessing?</h2>
         <a class="btn" href="#get" data-store>On the App Store in December</a>
       </div>
@@ -475,8 +478,8 @@
 <footer class="site-footer">
   <div class="foot-top">
     <!-- the App Store QR code takes the logo's place once there's a store link -->
-    <div class="qr" hidden><img src="assets/img/app-icon.png" alt=""><span>App Store QR code at launch</span></div>
-    <a class="logo foot-logo" href="#top" aria-label="Stedy, back to the top"><img src="assets/img/app-icon.png" alt=""><span>Stedy</span></a>
+    <div class="qr" hidden><img src="assets/img/app-icon.png?v=20261029" alt=""><span>App Store QR code at launch</span></div>
+    <a class="logo foot-logo" href="#top" aria-label="Stedy, back to the top"><img src="assets/img/logo-sisyphus.png?v=20261029" width="32" height="40" alt=""><span>Stedy</span></a>
     <div class="foot-cols">
       <div><p>Stedy</p><ul><li><a href="#features">Features</a></li><li><a href="#plans">Free and Premium</a></li><li><a href="#faq">Questions</a></li></ul></div>
       <div><p>Help</p><ul><li><a href="mailto:steedy.help@gmail.com">Support</a></li><li><a href="privacy.html">Privacy Policy</a></li><li><a href="terms.html">Terms of Use</a></li></ul></div>
@@ -490,6 +493,6 @@
   </div>
 </footer>
 
-<script type="module" src="assets/site.js"></script>
+<script type="module" src="assets/site.js?v=20261029"></script>
 </body>
 </html>

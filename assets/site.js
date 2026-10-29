@@ -261,7 +261,7 @@
   renderHero(shown);
 
   // the real 3D plate: three.js loads after the page; until then, or without WebGL, the CSS plate shows
-  import('./plate3d.js')
+  import('./plate3d.js?v=20261029') // the same ?v= as index.html's modulepreload, so it loads once
     .then(async (m) => {
       gl = await m.createHero(stage, { reduceMotion });
       renderHero(shown); // draw its first frame, then cross-fade from the CSS plate

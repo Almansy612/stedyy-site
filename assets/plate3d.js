@@ -4,7 +4,10 @@ import * as THREE from 'three';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
 
 const FONT = '-apple-system, "SF Pro Display", Inter, "Segoe UI", sans-serif';
-const MARK = 'M0 322A90 90 0 0 1 180 322L180 553A16.5 16.5 0 0 0 213 553L213 206A86 86 0 0 1 385 206L385 498A16 16 0 0 0 417 498L417 93.5A93.5 93.5 0 0 1 604 93.5L604 500C604 555 536 612 476 636C376 676 276 691 176 691C86 691 0 635 0 555Z';
+// Stedy's mark, Sisyphus lifting the plate (D-112); the plates wait for it before drawing their faces
+const LOGO = new Image();
+LOGO.src = new URL('img/logo-sisyphus.png', import.meta.url).href;
+const logoReady = LOGO.decode().catch(() => {}); // without it the face simply has no mark
 const rad = THREE.MathUtils.degToRad;
 
 // faceShade darkens the recessed face a touch, so the raised rim stands out
@@ -58,13 +61,12 @@ function faceDecal(look, anisotropy) {
   g.fillStyle = look.glyph;
   g.strokeStyle = look.glyph;
 
-  // Stedy's mark, the fork (D-109), above the hub
-  const markScale = .165 * unit / 691; // the mark's own box is 604 x 691
-  g.save();
-  g.translate(mid - 604 * markScale / 2, mid - .45 * unit - 691 * markScale);
-  g.scale(markScale, markScale);
-  g.fill(new Path2D(MARK));
-  g.restore();
+  // Stedy's mark above the hub, standing just clear of it
+  if (LOGO.naturalWidth) {
+    const markH = .4 * unit;
+    const markW = markH * LOGO.naturalWidth / LOGO.naturalHeight;
+    g.drawImage(LOGO, mid - markW / 2, mid - .36 * unit - markH, markW, markH);
+  }
 
   // the weight, and the name spaced out under it
   g.textAlign = 'center';
@@ -163,7 +165,7 @@ function makeScene(renderer) {
 /* The hero plate: one canvas over the whole stage. set() places it from screen numbers:
    cx, cy, d in CSS pixels, rx, ry, rz in degrees, free 0..1 (how far it has left the phone). */
 export async function createHero(stage, { reduceMotion }) {
-  await document.fonts.ready; // the lettering uses the page's font
+  await Promise.all([document.fonts.ready, logoReady]); // the lettering uses the page's font
   const canvas = document.createElement('canvas');
   canvas.className = 'plate-gl';
   canvas.setAttribute('aria-hidden', 'true');
@@ -236,7 +238,7 @@ export async function createHero(stage, { reduceMotion }) {
 /* Still plates (Free and Premium): drawn once by a small renderer, copied into 2D canvases,
    then the renderer lets go of its WebGL context. Each target: { canvas, kind, rx, ry, rz }. */
 export async function paintStills(targets) {
-  await document.fonts.ready;
+  await Promise.all([document.fonts.ready, logoReady]);
   const renderer = makeRenderer(document.createElement('canvas'), { preserveDrawingBuffer: true });
   const scene = makeScene(renderer);
   const camera = new THREE.PerspectiveCamera(22, 1, .1, 100);

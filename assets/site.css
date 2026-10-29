@@ -102,7 +102,7 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
   padding: 0 var(--gutter);
 }
 .logo { display: inline-flex; align-items: center; gap: 9px; height: 28px; }
-.logo svg { width: 21px; height: 24px; color: #fff; }
+.logo img { width: 32px; height: 32px; border-radius: 7.5px; } /* the app icon (D-112) as the logo */
 .logo span { font-size: 25px; font-weight: 600; letter-spacing: -.035em; line-height: 1; }
 
 .nav-pill {
@@ -438,7 +438,9 @@ ul, ol { margin: 0; padding: 0; list-style: none; }
 }
 .disc + .disc { margin-left: -22px; }
 .disc svg { width: 62px; height: 62px; color: #fff; }
-@media (min-width: 1024px) { .disc { width: 220px; height: 220px; } .disc svg { width: 80px; height: 80px; } .disc + .disc { margin-left: -28px; } }
+.disc img { width: auto; height: 76px; }
+.disc-cream { background: #f1e2c8; } /* the black-figure Sisyphus needs its pottery ground */
+@media (min-width: 1024px) { .disc { width: 220px; height: 220px; } .disc svg { width: 80px; height: 80px; } .disc img { height: 100px; } .disc + .disc { margin-left: -28px; } }
 
 /* panel 5: Home Screen widgets */
 .widgets { position: absolute; left: 50%; top: 56%; transform: translateX(-50%); display: flex; gap: 16px; }

@@ -35,7 +35,7 @@
 <meta property="og:description" content="Log every lift in a few taps. Stedy shows what changed, and with Premium, the weight to try next. For iPhone.">
 <meta property="og:image" content="https://stedyy.com/assets/img/og-icon.png">
 <meta name="twitter:card" content="summary">
-<!-- the Dusk app icon (D-109) as the tab icon and the iPhone "Add to Home Screen" icon -->
+<!-- the app icon, Sisyphus on pottery cream (D-112), as the tab icon and the iPhone "Add to Home Screen" icon -->
 <link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png">
 <link rel="icon" type="image/png" sizes="192x192" href="assets/img/icon-192.png">
 <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
@@ -57,8 +57,6 @@
 <!-- one sprite: icons, the plate faces and the nav's glass filter -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
-    <!-- Stedy's mark, the fork (D-109): three rising bars joined at a rising base -->
-    <path id="mark" d="M0 322A90 90 0 0 1 180 322L180 553A16.5 16.5 0 0 0 213 553L213 206A86 86 0 0 1 385 206L385 498A16 16 0 0 0 417 498L417 93.5A93.5 93.5 0 0 1 604 93.5L604 500C604 555 536 612 476 636C376 676 276 691 176 691C86 691 0 635 0 555Z"/>
     <filter id="liquid-glass" x="0" y="0" width="100%" height="100%">
       <feTurbulence type="fractalNoise" baseFrequency="0.008 0.02" numOctaves="1" seed="7" result="noise"/>
       <feDisplacementMap in="SourceGraphic" in2="noise" scale="16" xChannelSelector="R" yChannelSelector="G"/>
@@ -81,7 +79,8 @@
     <circle cx="200" cy="200" r="152" fill="url(#pb-face)"/>
     <circle cx="200" cy="200" r="152" fill="none" stroke="#000" stroke-opacity=".45" stroke-width="3"/>
     <circle cx="200" cy="200" r="153.5" fill="none" stroke="#fff" stroke-opacity=".12" stroke-width="1.2"/>
-    <use href="#mark" transform="translate(179.45 80) scale(.068)" fill="#fff" fill-opacity=".86"/>
+    <!-- Stedy's mark, Sisyphus lifting the plate (D-112), above the hub -->
+    <image href="assets/img/logo-sisyphus.png" x="163.6" y="48" width="72.8" height="90"/>
     <text x="200" y="300" text-anchor="middle" font-family="-apple-system, 'SF Pro Display', Inter, 'Segoe UI', sans-serif" font-size="30" font-weight="700" letter-spacing="2" fill="#fff" fill-opacity=".85">20 KG</text>
     <text x="200" y="326" text-anchor="middle" font-family="-apple-system, 'SF Pro Display', Inter, 'Segoe UI', sans-serif" font-size="12" font-weight="600" letter-spacing="5" fill="#fff" fill-opacity=".55">STEDY</text>
     <circle cx="200" cy="200" r="60" fill="url(#pl-steel)"/>
@@ -100,7 +99,7 @@
     <circle cx="200" cy="200" r="152" fill="url(#ps-face)"/>
     <circle cx="200" cy="200" r="152" fill="none" stroke="#000" stroke-opacity=".3" stroke-width="3"/>
     <circle cx="200" cy="200" r="153.5" fill="none" stroke="#fff" stroke-opacity=".4" stroke-width="1.2"/>
-    <use href="#mark" transform="translate(179.45 80) scale(.068)" fill="#2b2629" fill-opacity=".8"/>
+    <image href="assets/img/logo-sisyphus.png" x="163.6" y="48" width="72.8" height="90"/>
     <text x="200" y="300" text-anchor="middle" font-family="-apple-system, 'SF Pro Display', Inter, 'Segoe UI', sans-serif" font-size="30" font-weight="700" letter-spacing="2" fill="#2b2629" fill-opacity=".8">20 KG</text>
     <text x="200" y="326" text-anchor="middle" font-family="-apple-system, 'SF Pro Display', Inter, 'Segoe UI', sans-serif" font-size="12" font-weight="600" letter-spacing="5" fill="#2b2629" fill-opacity=".55">STEDY</text>
     <circle cx="200" cy="200" r="60" fill="url(#pl-steel)"/>
@@ -111,7 +110,6 @@
     <path d="M38 140A170 170 0 0 1 140 38" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="5" stroke-linecap="round"/>
   </symbol>
 
-  <symbol id="logo-mark" viewBox="0 0 604 691"><use href="#mark" fill="currentColor"/></symbol>
   <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.6-9.2-9.4C1.6 7.6 3.8 4.5 7 4.5c2 0 3.5 1.1 5 3 1.5-1.9 3-3 5-3 3.2 0 5.4 3.1 4.2 6.6-1.7 4.8-9.2 9.4-9.2 9.4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
   <symbol id="i-heart-fill" viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.6-9.2-9.4C1.6 7.6 3.8 4.5 7 4.5c2 0 3.5 1.1 5 3 1.5-1.9 3-3 5-3 3.2 0 5.4 3.1 4.2 6.6-1.7 4.8-9.2 9.4-9.2 9.4z" fill="currentColor"/></symbol>
   <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2.5 4.5 13.5H12l-1 8 8.5-11H12l1-8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
@@ -169,7 +167,7 @@
 
 <header class="site-header">
   <div class="bar">
-    <a class="logo" href="#top" aria-label="Stedy home"><svg viewBox="0 0 604 691"><use href="#logo-mark"/></svg><span>Stedy</span></a>
+    <a class="logo" href="#top" aria-label="Stedy home"><img src="assets/img/app-icon.png" alt=""><span>Stedy</span></a>
     <nav class="nav-pill" aria-label="Main">
       <a href="#top">Home</a>
       <a href="#features">Features</a>
@@ -270,7 +268,7 @@
         <div class="light" aria-hidden="true"></div>
         <div class="mock" aria-hidden="true">
           <div class="discs">
-            <span class="disc"><svg viewBox="0 0 604 691"><use href="#logo-mark"/></svg></span>
+            <span class="disc disc-cream"><img src="assets/img/logo-sisyphus.png" alt=""></span>
             <span class="disc"><svg viewBox="0 0 24 24"><use href="#i-heart-fill"/></svg></span>
           </div>
         </div>
@@ -478,7 +476,7 @@
   <div class="foot-top">
     <!-- the App Store QR code takes the logo's place once there's a store link -->
     <div class="qr" hidden><img src="assets/img/app-icon.png" alt=""><span>App Store QR code at launch</span></div>
-    <a class="logo foot-logo" href="#top" aria-label="Stedy, back to the top"><svg viewBox="0 0 604 691"><use href="#logo-mark"/></svg><span>Stedy</span></a>
+    <a class="logo foot-logo" href="#top" aria-label="Stedy, back to the top"><img src="assets/img/app-icon.png" alt=""><span>Stedy</span></a>
     <div class="foot-cols">
       <div><p>Stedy</p><ul><li><a href="#features">Features</a></li><li><a href="#plans">Free and Premium</a></li><li><a href="#faq">Questions</a></li></ul></div>
       <div><p>Help</p><ul><li><a href="mailto:steedy.help@gmail.com">Support</a></li><li><a href="privacy.html">Privacy Policy</a></li><li><a href="terms.html">Terms of Use</a></li></ul></div>

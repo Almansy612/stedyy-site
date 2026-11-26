@@ -61,7 +61,7 @@
   if (STORE_URL) {
     document.querySelectorAll('[data-store]').forEach((a) => {
       a.href = STORE_URL;
-      a.textContent = 'Download on the App Store';
+      a.textContent = document.documentElement.lang.startsWith('fr') ? 'Télécharger dans l’App Store' : 'Download on the App Store';
     });
   }
   document.querySelectorAll('a[aria-disabled="true"]').forEach((a) => a.addEventListener('click', (e) => e.preventDefault()));

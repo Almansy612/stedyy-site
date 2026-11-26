@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="fr-CA">
+<head>
+<meta charset="utf-8">
+<!-- a browser set to French gets the French page (assets/lang.js) -->
+<script src="assets/lang.js?v=20261126"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Stedy : journal de musculation pour iPhone</title>
+<meta name="description" content="Stedy est un journal de musculation pour iPhone. Note chaque exercice en quelques touchers, vois ce qui a changé et, avec Premium, la charge à essayer la prochaine fois. Arrête de deviner. Progresse.">
+<!-- tells search engines the site's name (Stedy, also searched as Stedyy) and that it's an iPhone app -->
+<script type="application/ld+json">
+[{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Stedy",
+  "alternateName": ["Stedy app", "Stedyy"],
+  "url": "https://stedyy.com/"
+}, {
+  "@context": "https://schema.org",
+  "@type": "MobileApplication",
+  "name": "Stedy",
+  "alternateName": "Stedy: Gym Workout Tracker",
+  "operatingSystem": "iOS",
+  "applicationCategory": "HealthApplication",
+  "description": "A gym workout tracker for iPhone: log the weight for every lift, see what changed, and with Premium, the weight to try next.",
+  "url": "https://stedyy.com/",
+  "image": "https://stedyy.com/assets/img/og-icon.png?v=20261029"
+}]
+</script>
+<meta name="theme-color" content="#080405">
+<link rel="canonical" href="https://stedyy.com/index-fr.html">
+<link rel="alternate" hreflang="en" href="https://stedyy.com/">
+<link rel="alternate" hreflang="fr" href="https://stedyy.com/index-fr.html">
+<!-- how a shared link looks in Messages, WhatsApp, TikTok and the rest -->
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Stedy">
+<meta property="og:url" content="https://stedyy.com/index-fr.html">
+<meta property="og:title" content="Stedy : journal de musculation pour iPhone">
+<meta property="og:description" content="Note chaque exercice en quelques touchers. Stedy montre ce qui a changé et, avec Premium, la charge à essayer la prochaine fois. Pour iPhone.">
+<meta property="og:image" content="https://stedyy.com/assets/img/og-icon.png?v=20261029">
+<meta name="twitter:card" content="summary">
+<!-- the app icon, Sisyphus on pottery cream (D-112), as the tab icon and the iPhone "Add to Home Screen" icon -->
+<link rel="icon" type="image/png" sizes="32x32" href="assets/img/favicon-32.png?v=20261029">
+<link rel="icon" type="image/png" sizes="192x192" href="assets/img/icon-192.png?v=20261029">
+<link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png?v=20261029">
+<link rel="preload" href="assets/fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
+<!-- ?v= is the release: change it whenever a file it's on changes (here, in site.css, site.js, plate3d.js,
+     privacy.html and terms.html), so browsers fetch the new files with the new page instead of reusing
+     their cached copies for up to 10 minutes (GitHub Pages' max-age) -->
+<link rel="stylesheet" href="assets/site.css?v=20261029">
+<!-- three.js (pinned) draws the 3D weight plate; plate3d.js imports it by these names -->
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+} }
+</script>
+<!-- start fetching the 3D plate's code early, so it's ready by the time the phone shows -->
+<link rel="modulepreload" href="https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.min.js" crossorigin>
+<link rel="modulepreload" href="assets/plate3d.js?v=20261029">
+</head>
+<body>
+
+<!-- one sprite: icons, the plate faces and the nav's glass filter -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="liquid-glass" x="0" y="0" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.008 0.02" numOctaves="1" seed="7" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="16" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+    <linearGradient id="pb-lip" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#c04563"/><stop offset=".45" stop-color="#7b1e34"/><stop offset="1" stop-color="#2e0a15"/></linearGradient>
+    <radialGradient id="pb-rubber" cx=".38" cy=".32" r=".8"><stop offset="0" stop-color="#9a2f49"/><stop offset=".5" stop-color="#6e1a2f"/><stop offset="1" stop-color="#3e0c1b"/></radialGradient>
+    <radialGradient id="pb-face" cx=".45" cy=".38" r=".75"><stop offset="0" stop-color="#7d2037"/><stop offset=".6" stop-color="#561326"/><stop offset="1" stop-color="#360a17"/></radialGradient>
+    <linearGradient id="pl-steel" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#f4f2f3"/><stop offset=".4" stop-color="#bdb7ba"/><stop offset=".7" stop-color="#7e787b"/><stop offset="1" stop-color="#cfcacc"/></linearGradient>
+    <linearGradient id="pl-steel2" x1="1" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#f4f2f3"/><stop offset=".5" stop-color="#a9a3a6"/><stop offset="1" stop-color="#5f5a5d"/></linearGradient>
+    <linearGradient id="ps-lip" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".45" stop-color="#c9c5c7"/><stop offset="1" stop-color="#6d686b"/></linearGradient>
+    <radialGradient id="ps-rubber" cx=".38" cy=".32" r=".8"><stop offset="0" stop-color="#ebe8ea"/><stop offset=".5" stop-color="#b5b0b3"/><stop offset="1" stop-color="#7c777a"/></radialGradient>
+    <radialGradient id="ps-face" cx=".45" cy=".38" r=".75"><stop offset="0" stop-color="#d3cfd1"/><stop offset=".6" stop-color="#a29da0"/><stop offset="1" stop-color="#77727a"/></radialGradient>
+  </defs>
+
+  <symbol id="plate-burgundy" viewBox="0 0 400 400">
+    <circle cx="200" cy="200" r="200" fill="url(#pb-lip)"/>
+    <circle cx="200" cy="200" r="190" fill="url(#pb-rubber)"/>
+    <circle cx="200" cy="200" r="176" fill="none" stroke="#000" stroke-opacity=".25" stroke-width="2"/>
+    <circle cx="200" cy="200" r="178" fill="none" stroke="#fff" stroke-opacity=".07"/>
+    <circle cx="200" cy="200" r="152" fill="url(#pb-face)"/>
+    <circle cx="200" cy="200" r="152" fill="none" stroke="#000" stroke-opacity=".45" stroke-width="3"/>
+    <circle cx="200" cy="200" r="153.5" fill="none" stroke="#fff" stroke-opacity=".12" stroke-width="1.2"/>
+    <!-- Stedy's mark (D-112): Sisyphus climbing ground that follows the plate's circle; it covers 1.6x the radius -->
+    <image href="assets/img/plate-mark.png?v=20261029" x="40" y="40" width="320" height="320"/>
+    <text x="200" y="300" text-anchor="middle" font-family="-apple-system, 'SF Pro Display', Inter, 'Segoe UI', sans-serif" font-size="30" font-weight="700" letter-spacing="2" fill="#fff" fill-opacity=".85">20 KG</text>
+    <text x="200" y="326" text-anchor="middle" font-family="-apple-system, 'SF Pro Display', Inter, 'Segoe UI', sans-serif" font-size="12" font-weight="600" letter-spacing="5" fill="#fff" fill-opacity=".55">STEDY</text>
+    <circle cx="200" cy="200" r="60" fill="url(#pl-steel)"/>
+    <circle cx="200" cy="200" r="60" fill="none" stroke="#000" stroke-opacity=".35" stroke-width="2"/>
+    <circle cx="200" cy="200" r="45" fill="url(#pl-steel2)"/>
+    <circle cx="200" cy="200" r="27" fill="#0a0607"/>
+    <circle cx="200" cy="200" r="27" fill="none" stroke="#fff" stroke-opacity=".3" stroke-width="1.2"/>
+    <path d="M38 140A170 170 0 0 1 140 38" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="5" stroke-linecap="round"/>
+  </symbol>
+
+  <symbol id="plate-steel" viewBox="0 0 400 400">
+    <circle cx="200" cy="200" r="200" fill="url(#ps-lip)"/>
+    <circle cx="200" cy="200" r="190" fill="url(#ps-rubber)"/>
+    <circle cx="200" cy="200" r="176" fill="none" stroke="#000" stroke-opacity=".18" stroke-width="2"/>
+    <circle cx="200" cy="200" r="178" fill="none" stroke="#fff" stroke-opacity=".3"/>
+    <circle cx="200" cy="200" r="152" fill="url(#ps-face)"/>
+    <circle cx="200" cy="200" r="152" fill="none" stroke="#000" stroke-opacity=".3" stroke-width="3"/>
+    <circle cx="200" cy="200" r="153.5" fill="none" stroke="#fff" stroke-opacity=".4" stroke-width="1.2"/>
+    <image href="assets/img/plate-mark.png?v=20261029" x="40" y="40" width="320" height="320"/>
+    <text x="200" y="300" text-anchor="middle" font-family="-apple-system, 'SF Pro Display', Inter, 'Segoe UI', sans-serif" font-size="30" font-weight="700" letter-spacing="2" fill="#2b2629" fill-opacity=".8">20 KG</text>
+    <text x="200" y="326" text-anchor="middle" font-family="-apple-system, 'SF Pro Display', Inter, 'Segoe UI', sans-serif" font-size="12" font-weight="600" letter-spacing="5" fill="#2b2629" fill-opacity=".55">STEDY</text>
+    <circle cx="200" cy="200" r="60" fill="url(#pl-steel)"/>
+    <circle cx="200" cy="200" r="60" fill="none" stroke="#000" stroke-opacity=".3" stroke-width="2"/>
+    <circle cx="200" cy="200" r="45" fill="url(#pl-steel2)"/>
+    <circle cx="200" cy="200" r="27" fill="#141012"/>
+    <circle cx="200" cy="200" r="27" fill="none" stroke="#fff" stroke-opacity=".4" stroke-width="1.2"/>
+    <path d="M38 140A170 170 0 0 1 140 38" fill="none" stroke="#fff" stroke-opacity=".7" stroke-width="5" stroke-linecap="round"/>
+  </symbol>
+
+  <symbol id="i-heart" viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.6-9.2-9.4C1.6 7.6 3.8 4.5 7 4.5c2 0 3.5 1.1 5 3 1.5-1.9 3-3 5-3 3.2 0 5.4 3.1 4.2 6.6-1.7 4.8-9.2 9.4-9.2 9.4z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-heart-fill" viewBox="0 0 24 24"><path d="M12 20.5s-7.5-4.6-9.2-9.4C1.6 7.6 3.8 4.5 7 4.5c2 0 3.5 1.1 5 3 1.5-1.9 3-3 5-3 3.2 0 5.4 3.1 4.2 6.6-1.7 4.8-9.2 9.4-9.2 9.4z" fill="currentColor"/></symbol>
+  <symbol id="i-bolt" viewBox="0 0 24 24"><path d="M13 2.5 4.5 13.5H12l-1 8 8.5-11H12l1-8z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-noacct" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20.5c1.2-3.6 4.1-5.5 7.5-5.5s6.3 1.9 7.5 5.5M3.5 3.5l17 17"/></g></symbol>
+  <symbol id="i-person" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="3.6"/><path d="M4.5 20.5c1.2-3.6 4.1-5.5 7.5-5.5s6.3 1.9 7.5 5.5"/></g></symbol>
+  <symbol id="i-timer" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="13.5" r="7.5"/><path d="M12 13.5V9.5M9.5 2.5h5M18.5 6.5 20 5"/></g></symbol>
+  <symbol id="i-sparkle" viewBox="0 0 24 24"><path d="M12 3c.6 4.6 2.4 6.4 7 7-4.6.6-6.4 2.4-7 7-.6-4.6-2.4-6.4-7-7 4.6-.6 6.4-2.4 7-7z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-widget" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3.5" y="3.5" width="7" height="7" rx="2"/><rect x="13.5" y="3.5" width="7" height="7" rx="2"/><rect x="3.5" y="13.5" width="17" height="7" rx="2"/></g></symbol>
+  <symbol id="i-chart" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5h16M5.5 15l4.5-4.5 3.5 3 5-6M15 7.5h3.5V11"/></g></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5 9.5 17 19 7.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="3.2"/><path d="M12 2.5v3M12 18.5v3M2.5 12h3M18.5 12h3M5.3 5.3l2.1 2.1M16.6 16.6l2.1 2.1M5.3 18.7l2.1-2.1M16.6 7.4l2.1-2.1"/></g></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M20.5 12c0 4.1-3.8 7.5-8.5 7.5-1.3 0-2.6-.3-3.7-.8L3.5 20l1.2-3.6c-.8-1.3-1.2-2.8-1.2-4.4 0-4.1 3.8-7.5 8.5-7.5s8.5 3.4 8.5 7.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-cloud" viewBox="0 0 24 24"><path d="M7 18.5h10a4 4 0 0 0 .6-8 6 6 0 0 0-11.4 1.5A3.3 3.3 0 0 0 7 18.5z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></symbol>
+  <symbol id="i-list" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M9 6.5h11M9 12h11M9 17.5h11"/><circle cx="4.5" cy="6.5" r=".6"/><circle cx="4.5" cy="12" r=".6"/><circle cx="4.5" cy="17.5" r=".6"/></g></symbol>
+  <symbol id="i-palette" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 3.5a8.5 8.5 0 1 0 0 17c1.3 0 1.8-.8 1.8-1.7 0-1.4-1.1-1.6-1.1-2.9 0-1 .8-1.6 1.8-1.6h2.1a3.9 3.9 0 0 0 3.9-3.9C20.5 6.5 16.7 3.5 12 3.5z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7.5" r="1"/><circle cx="14.5" cy="7.5" r="1"/></g></symbol>
+  <symbol id="i-quote" viewBox="0 0 24 24"><path d="M6.5 7h4.5v4.5c0 3.2-1.6 5.3-4.5 6.3M13.5 7H18v4.5c0 3.2-1.6 5.3-4.5 6.3" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-signal" viewBox="0 0 18 12"><g fill="currentColor"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></g></symbol>
+  <symbol id="i-wifi" viewBox="0 0 16 12"><g fill="currentColor"><path d="M8 2.5c2.3 0 4.4.9 6 2.4l1.3-1.4A10.3 10.3 0 0 0 8 .5C5.2.5 2.6 1.6.7 3.5L2 4.9a8.3 8.3 0 0 1 6-2.4z"/><path d="M8 6c1.3 0 2.5.5 3.5 1.4l1.3-1.4A7 7 0 0 0 8 4a7 7 0 0 0-4.8 2l1.3 1.4C5.5 6.5 6.7 6 8 6z"/><circle cx="8" cy="10" r="1.8"/></g></symbol>
+  <symbol id="i-battery" viewBox="0 0 27 12"><rect x=".5" y=".5" width="23" height="11" rx="3.2" fill="none" stroke="currentColor" stroke-opacity=".45"/><rect x="2" y="2" width="20" height="8" rx="2" fill="currentColor"/><path d="M25 4v4c.8-.3 1.5-1.1 1.5-2S25.8 4.3 25 4z" fill="currentColor" fill-opacity=".45"/></symbol>
+</svg>
+
+<!-- the phone screen, cloned by site.js wherever a phone appears -->
+<template id="phone-tpl">
+  <div class="phone">
+    <div class="screen">
+      <div class="island"></div>
+      <div class="status"><span>9:41</span><span class="sig"><svg viewBox="0 0 18 12"><use href="#i-signal"/></svg><svg viewBox="0 0 16 12"><use href="#i-wifi"/></svg><svg viewBox="0 0 27 12"><use href="#i-battery"/></svg></span></div>
+      <div class="app">
+        <div class="app-top">
+          <span class="me"><svg><use href="#i-person"/></svg></span>
+          <span class="glass-row"><span class="glass"><svg><use href="#i-chat"/></svg></span><span class="glass"><svg><use href="#i-gear"/></svg></span></span>
+        </div>
+        <div class="plate-slot"></div>
+        <p class="app-label">Bench press · ✦ Suggéré</p>
+        <p class="app-number">62.5<small>kg</small></p>
+        <div class="app-actions">
+          <div><b><svg><use href="#i-minus"/></svg></b>2.5</div>
+          <div><b><svg><use href="#i-plus"/></svg></b>2.5</div>
+          <div><b><svg><use href="#i-check"/></svg></b>Noter la série</div>
+          <div><b><svg><use href="#i-timer"/></svg></b>Repos</div>
+        </div>
+        <div class="app-sets">
+          <p>Séries</p>
+          <ul>
+            <li><span>1</span><span>60 × 12</span><span>Terminé</span></li>
+            <li><span>2</span><span>60 × 12</span><span>Terminé</span></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
+<header class="site-header">
+  <div class="bar">
+    <a class="logo" href="#top" aria-label="Accueil Stedy"><img src="assets/img/logo-sisyphus.png?v=20261029" width="32" height="40" alt=""><span>Stedy</span></a>
+    <nav class="nav-pill" aria-label="Principal">
+      <a href="#top">Accueil</a>
+      <a href="#features">Fonctions</a>
+      <a href="#plans">Premium</a>
+      <a href="#faq">Questions</a>
+    </nav>
+    <a class="header-cta" href="#get">Obtenir Stedy</a>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- 1. the opening: pinned stage, scroll moves the phone and the plate -->
+  <section class="hero" aria-label="Stedy">
+    <div class="stage">
+      <div class="aurora" aria-hidden="true"><div class="wash"></div><div class="spot"><span class="s1"></span><span class="s2"></span><span class="s3"></span></div><div class="grain"></div></div>
+      <canvas class="dissolve" aria-hidden="true"></canvas>
+
+      <div class="hero-copy">
+        <p class="eyebrow-badge"><i><svg><use href="#i-heart-fill"/></svg></i>Compatible avec Santé d’Apple</p>
+        <h1>Arrête de deviner. Progresse.</h1>
+        <p class="lead">Note chaque exercice en quelques touchers. Stedy montre ce qui a changé et, avec Premium, la charge à essayer la prochaine fois.</p>
+        <a class="btn" href="#get" data-store>Sur l’App Store en décembre</a>
+      </div>
+
+      <div class="rig" aria-hidden="true">
+        <div class="phone-wrap">
+          <div class="rim"><span class="r1"></span><span class="r2"></span><span class="r3"></span><span class="r4"></span></div>
+          <div data-phone="hero"></div>
+        </div>
+        <div class="hero-plate"><div data-plate="burgundy"></div></div>
+      </div>
+
+      <div class="pills" aria-hidden="true">
+        <span class="pill p1"><svg><use href="#i-bolt"/></svg>Note une série en quelques secondes</span>
+        <span class="pill p2"><svg><use href="#i-noacct"/></svg>Aucun compte requis</span>
+        <span class="pill p3"><svg><use href="#i-timer"/></svg>Minuterie de repos dans la Dynamic Island</span>
+        <span class="pill p4"><svg><use href="#i-heart"/></svg>Enregistre dans Santé</span>
+      </div>
+
+      <div class="plate-copy">
+        <h2>Avec Premium, Stedy montre la charge à essayer la prochaine fois, <span class="dim">calculée à partir de tes propres séries, jamais au hasard.</span></h2>
+        <a class="btn btn-sm" href="#plans">Voir Gratuit et Premium</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. features: a sideways row of panels -->
+  <section class="section" id="features" aria-labelledby="features-title">
+    <h2 class="sr-only" id="features-title">Ce que fait Stedy</h2>
+    <ul class="rail" data-rail tabindex="0" aria-label="Fonctions, fais défiler de côté pour en voir plus">
+      <li class="panel">
+        <span class="icon-orb"><svg><use href="#i-bolt"/></svg></span>
+        <p class="copy"><b>Note en quelques secondes.</b> <span>Touche − ou +, puis Noter la série. Pensé pour une main, entre deux séries.</span></p>
+        <div class="light" aria-hidden="true"></div>
+        <div class="mock" aria-hidden="true">
+          <div class="mini-phone"><div data-phone="mini"></div></div>
+          <div class="set-bar">
+            <div><svg><use href="#i-minus"/></svg>− 2.5</div>
+            <div><svg><use href="#i-check"/></svg>Noter la série</div>
+            <div><svg><use href="#i-plus"/></svg>+ 2.5</div>
+          </div>
+        </div>
+      </li>
+      <li class="panel">
+        <span class="icon-orb"><svg><use href="#i-sparkle"/></svg></span>
+        <p class="copy"><b>Ta prochaine charge.</b> <span>Dépasse ta fourchette de répétitions deux fois de suite, et Premium suggère la charge à essayer.</span></p>
+        <div class="light" aria-hidden="true"></div>
+        <div class="mock" aria-hidden="true">
+          <div class="stepper-mock">
+            <p class="label"><i>✦</i> Prochaine charge suggérée</p>
+            <div class="stepper-row">
+              <span class="round">−</span>
+              <span class="amount"><span>62.5</span><span class="caret"></span><span class="unit">kg</span></span>
+              <span class="round">+</span>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li class="panel">
+        <span class="icon-orb"><svg><use href="#i-timer"/></svg></span>
+        <p class="copy"><b>Ton repos, compté pour toi.</b> <span>Note une série, et le décompte s’affiche dans la Dynamic Island et à l’écran verrouillé.</span></p>
+        <div class="light" aria-hidden="true"></div>
+        <div class="mock" aria-hidden="true">
+          <div class="island-mock">
+            <div class="island-pill">
+              <span class="ring"><svg viewBox="0 0 50 50"><circle cx="25" cy="25" r="21" fill="none" stroke="rgba(255,214,10,.25)" stroke-width="5"/><circle cx="25" cy="25" r="21" fill="none" stroke="#FFD60A" stroke-width="5" stroke-linecap="round" stroke-dasharray="131.95" stroke-dashoffset="52.8"/></svg><b>1:12</b></span>
+              <span class="what"><small>Repos</small><span>Bench press</span></span>
+              <span class="bars"><i class="lit" style="height:40%"></i><i class="lit" style="height:58%"></i><i style="height:76%"></i><i style="height:88%"></i><i style="height:100%"></i></span>
+            </div>
+            <p class="caption">Dynamic Island</p>
+          </div>
+        </div>
+      </li>
+      <li class="panel">
+        <span class="icon-orb"><svg><use href="#i-heart"/></svg></span>
+        <p class="copy"><b>Santé d’Apple.</b> <span>Active-la, et chaque entraînement terminé est enregistré dans Santé comme séance de musculation.</span></p>
+        <div class="light" aria-hidden="true"></div>
+        <div class="mock" aria-hidden="true">
+          <div class="discs">
+            <span class="disc disc-cream"><img src="assets/img/logo-sisyphus.png?v=20261029" alt=""></span>
+            <span class="disc"><svg viewBox="0 0 24 24"><use href="#i-heart-fill"/></svg></span>
+          </div>
+        </div>
+      </li>
+      <li class="panel">
+        <span class="icon-orb"><svg><use href="#i-widget"/></svg></span>
+        <p class="copy"><b>Ta semaine sur l’écran d’accueil.</b> <span>Vois les jours où tu t’es entraîné, ou commence à noter d’un seul toucher.</span></p>
+        <div class="light" aria-hidden="true"></div>
+        <div class="mock" aria-hidden="true">
+          <div class="widgets">
+            <div class="widget">
+              <small>CETTE SEMAINE</small>
+              <p class="big">3<em>sur 4</em></p>
+              <div class="wbars"><i class="lit" style="height:70%"></i><i style="height:20%"></i><i class="lit" style="height:85%"></i><i style="height:20%"></i><i class="lit" style="height:100%"></i><i style="height:40%"></i><i style="height:40%"></i></div>
+            </div>
+            <div class="widget log">
+              <span class="plus">+</span>
+              <p>Noter <em>jeudi</em></p>
+            </div>
+          </div>
+        </div>
+      </li>
+      <li class="panel">
+        <span class="icon-orb"><svg><use href="#i-chart"/></svg></span>
+        <p class="copy"><b>Vois ce qui a changé.</b> <span>La tendance de chaque exercice, ta meilleure marque, et un badge quand tu en mérites un. Aucune série à maintenir.</span></p>
+        <div class="light" aria-hidden="true"></div>
+        <div class="mock" aria-hidden="true">
+          <div class="notes">
+            <div class="note"><span><span class="star">★</span> Meilleure marque · Bench</span><span>62.5 kg</span></div>
+            <div class="note"><span>Squat en hausse</span><span>+5 kg</span></div>
+            <div class="note fade"><span>Nouveau badge</span><span>10 entraînements</span></div>
+          </div>
+        </div>
+      </li>
+    </ul>
+  </section>
+
+  <!-- 3. Free and Premium -->
+  <section class="section pad-x" id="plans" aria-labelledby="plans-title">
+    <div class="plans-head">
+      <h2 class="h2" id="plans-title">Gratuit et Premium</h2>
+      <p>Stedy est complet gratuitement. Premium ajoute l’accompagnement.</p>
+    </div>
+    <div class="plans-grid">
+      <article class="plan free">
+        <h3>Gratuit</h3>
+        <p>Aussi longtemps que tu t’entraînes. Aucun compte requis.</p>
+        <div class="plan-visual" aria-hidden="true"><div class="glowbed"></div><div data-plate="steel"></div></div>
+        <ul>
+          <li><svg><use href="#i-list"/></svg><div><b>Saisie illimitée</b><span>Chaque exercice, série et jour de repos, avec tout ton historique.</span></div></li>
+          <li><svg><use href="#i-chart"/></svg><div><b>Ta progression d’un coup d’œil</b><span>L’état de chaque exercice : en hausse, stable ou plus léger que d’habitude.</span></div></li>
+          <li><svg><use href="#i-timer"/></svg><div><b>Minuterie de repos et Santé</b><span>Un décompte dans la Dynamic Island, et tes entraînements enregistrés dans Santé.</span></div></li>
+          <li><svg><use href="#i-cloud"/></svg><div><b>Sauvegardes</b><span>Exporte un fichier quand tu veux, ou connecte-toi pour sauvegarder dans ton compte.</span></div></li>
+        </ul>
+        <a class="btn" href="#get">Commencer gratuitement</a>
+      </article>
+      <article class="plan premium">
+        <h3>Premium</h3>
+        <p>7,99 $ par mois, ou 59,99 $ par an avec 7 jours gratuits.</p>
+        <div class="plan-visual" aria-hidden="true"><div class="glowbed"></div><div data-plate="burgundy"></div></div>
+        <ul>
+          <li><svg><use href="#i-sparkle"/></svg><div><b>Ta prochaine charge</b><span>Une charge suggérée quand tu l’as méritée, avec la raison.</span></div></li>
+          <li><svg><use href="#i-chart"/></svg><div><b>Aide aux plateaux</b><span>Quoi essayer quand un exercice ne monte plus.</span></div></li>
+          <li><svg><use href="#i-chat"/></svg><div><b>L’assistant</b><span>Pose tes questions sur ton entraînement; les réponses se font sur ton iPhone. Nécessite Apple Intelligence.</span></div></li>
+          <li><svg><use href="#i-palette"/></svg><div><b>Bilans, widgets et thèmes</b><span>Ton trimestre en cartes à faire défiler, deux widgets d’écran d’accueil et trois autres thèmes de couleur.</span></div></li>
+        </ul>
+        <a class="btn" href="#get">Essayer 7 jours gratuits</a>
+      </article>
+    </div>
+  </section>
+
+  <!-- 4. reviews: hidden until real quotes exist (testers' own words with their permission, or App Store reviews).
+       To show it: replace the placeholder cards, in both copies, and remove the hidden attribute. -->
+  <section class="section reviews" aria-labelledby="reviews-title" hidden>
+    <div class="reviews-head pad-x">
+      <h2 class="h2" id="reviews-title">What lifters say</h2>
+    </div>
+    <div class="marquee" tabindex="0" aria-label="Reviews. The row moves slowly; focus or tap it to pause.">
+      <ul class="marquee-track">
+        <li class="review"><div class="who"><span class="avatar">T1</span>Tester name</div><q>Placeholder. A tester's own words go here, quoted exactly.</q><div class="src">On TestFlight<svg><use href="#i-quote"/></svg></div></li>
+        <li class="review"><div class="who"><span class="avatar">T2</span>Tester name</div><q>Placeholder for a short quote.</q><div class="src">On TestFlight<svg><use href="#i-quote"/></svg></div></li>
+        <li class="review"><div class="who"><span class="avatar">T3</span>Tester name</div><q>Placeholder. A longer quote fits here too, up to about four lines, so the cards stay the same height.</q><div class="src">On TestFlight<svg><use href="#i-quote"/></svg></div></li>
+        <li class="review"><div class="who"><span class="avatar">T4</span>Tester name</div><q>Placeholder. Only real quotes, used with permission.</q><div class="src">On TestFlight<svg><use href="#i-quote"/></svg></div></li>
+        <li class="review"><div class="who"><span class="avatar">R1</span>Reviewer name</div><q>Placeholder. After launch, App Store reviews can go here.</q><div class="src">App Store review<svg><use href="#i-quote"/></svg></div></li>
+        <li class="review"><div class="who"><span class="avatar">R2</span>Reviewer name</div><q>Placeholder for a second App Store review.</q><div class="src">App Store review<svg><use href="#i-quote"/></svg></div></li>
+        <!-- the same six again, so the loop is seamless -->
+        <li class="review" aria-hidden="true"><div class="who"><span class="avatar">T1</span>Tester name</div><q>Placeholder. A tester's own words go here, quoted exactly.</q><div class="src">On TestFlight<svg><use href="#i-quote"/></svg></div></li>
+        <li class="review" aria-hidden="true"><div class="who"><span class="avatar">T2</span>Tester name</div><q>Placeholder for a short quote.</q><div class="src">On TestFlight<svg><use href="#i-quote"/></svg></div></li>
+        <li class="review" aria-hidden="true"><div class="who"><span class="avatar">T3</span>Tester name</div><q>Placeholder. A longer quote fits here too, up to about four lines, so the cards stay the same height.</q><div class="src">On TestFlight<svg><use href="#i-quote"/></svg></div></li>
+        <li class="review" aria-hidden="true"><div class="who"><span class="avatar">T4</span>Tester name</div><q>Placeholder. Only real quotes, used with permission.</q><div class="src">On TestFlight<svg><use href="#i-quote"/></svg></div></li>
+        <li class="review" aria-hidden="true"><div class="who"><span class="avatar">R1</span>Reviewer name</div><q>Placeholder. After launch, App Store reviews can go here.</q><div class="src">App Store review<svg><use href="#i-quote"/></svg></div></li>
+        <li class="review" aria-hidden="true"><div class="who"><span class="avatar">R2</span>Reviewer name</div><q>Placeholder for a second App Store review.</q><div class="src">App Store review<svg><use href="#i-quote"/></svg></div></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 5. three steps that light up as you scroll -->
+  <section class="section" id="start" aria-labelledby="steps-title" style="padding-top:40px">
+    <h2 class="h2 pad-x" id="steps-title">Commence en trois étapes</h2>
+    <div class="pad-x">
+      <div class="steps-pills">
+        <div class="track"><i></i></div>
+        <button class="step-pill" data-step="0" aria-current="step">Étape 1</button>
+        <button class="step-pill" data-step="1">Étape 2</button>
+        <button class="step-pill" data-step="2">Étape 3</button>
+      </div>
+    </div>
+    <ol class="steps-row">
+      <li class="step on">
+        <div class="step-card">
+          <div class="light" aria-hidden="true"></div>
+          <div class="smock" aria-hidden="true">
+            <div class="wire"><div class="store-card"><span class="ico"></span><div><b>Stedy</b><small>Journal de musculation</small><span class="get">Obtenir</span></div></div></div>
+            <div class="fill"><div class="rim"><span class="r1"></span><span class="r2"></span><span class="r3"></span><span class="r4"></span></div><div class="store-card"><span class="ico"></span><div><b>Stedy</b><small>Journal de musculation</small><span class="get">Obtenir</span></div></div></div>
+          </div>
+        </div>
+        <h3>Obtiens Stedy</h3>
+        <p>Télécharge-le gratuitement sur l’App Store. Aucun compte, courriel ni mot de passe requis.</p>
+      </li>
+      <li class="step">
+        <div class="step-card">
+          <div class="light" aria-hidden="true"></div>
+          <div class="smock" aria-hidden="true">
+            <div class="wire"><div class="setup-card"><small>Configuration</small><p>Combien de jours par semaine t’entraînes-tu?</p><div class="chips"><i>2</i><i>3</i><i class="sel">4</i><i>5</i></div></div></div>
+            <div class="fill"><div class="rim"><span class="r1"></span><span class="r2"></span><span class="r3"></span><span class="r4"></span></div><div class="setup-card"><small>Configuration</small><p>Combien de jours par semaine t’entraînes-tu?</p><div class="chips"><i>2</i><i>3</i><i class="sel">4</i><i>5</i></div></div></div>
+          </div>
+        </div>
+        <h3>Organise ta semaine</h3>
+        <p>Choisis kg ou lb, ta répartition et tes jours d’entraînement. Passe ce que tu veux.</p>
+      </li>
+      <li class="step">
+        <div class="step-card">
+          <div class="light" aria-hidden="true"></div>
+          <div class="smock" aria-hidden="true">
+            <div class="wire"><div class="finish-card"><small>Enregistré · 46 min · 14 séries</small><p>Ta courbe <em>commence ici.</em></p><div class="fbars"><i style="height:45%"></i><i style="height:70%"></i><i style="height:100%"></i></div></div></div>
+            <div class="fill"><div class="rim"><span class="r1"></span><span class="r2"></span><span class="r3"></span><span class="r4"></span></div><div class="finish-card"><small>Enregistré · 46 min · 14 séries</small><p>Ta courbe <em>commence ici.</em></p><div class="fbars"><i style="height:45%"></i><i style="height:70%"></i><i style="height:100%"></i></div></div></div>
+          </div>
+        </div>
+        <h3>Note ton premier entraînement</h3>
+        <p>Entre les charges que tu soulèves. La prochaine fois, Stedy te montre ce qui a changé.</p>
+      </li>
+    </ol>
+  </section>
+
+  <!-- 6. questions -->
+  <section class="section pad-x" id="faq" aria-labelledby="faq-title">
+    <div class="faq-grid">
+      <div class="faq-intro">
+        <h2 id="faq-title">Le travail régulier finit par compter.</h2>
+        <p>Tout ce qu’il faut savoir avant ta première séance notée.</p>
+      </div>
+      <div class="faq-list">
+        <div class="qa open">
+          <button aria-expanded="true" aria-controls="qa1" id="qa1-b">Stedy est-il gratuit?<span class="x" aria-hidden="true"></span></button>
+          <div class="a" id="qa1" role="region" aria-labelledby="qa1-b"><div><p>Oui. La saisie, tout ton historique, ta progression, la minuterie de repos, Santé et les sauvegardes sont gratuits, sans limite de temps. Premium ajoute l’accompagnement.</p></div></div>
+        </div>
+        <div class="qa">
+          <button aria-expanded="false" aria-controls="qa2" id="qa2-b">Qu’est-ce que Premium ajoute?<span class="x" aria-hidden="true"></span></button>
+          <div class="a" id="qa2" role="region" aria-labelledby="qa2-b"><div><p>La charge à essayer pour chaque exercice, de l’aide quand un exercice stagne, l’assistant d’entraînement, ton bilan trimestriel, deux widgets d’écran d’accueil et d’autres thèmes de couleur. C’est 7,99 $ par mois, ou 59,99 $ par an avec un essai gratuit de 7 jours.</p></div></div>
+        </div>
+        <div class="qa">
+          <button aria-expanded="false" aria-controls="qa3" id="qa3-b">Ai-je besoin d’un compte?<span class="x" aria-hidden="true"></span></button>
+          <div class="a" id="qa3" role="region" aria-labelledby="qa3-b"><div><p>Non. Stedy fonctionne entièrement sans compte. Connecte-toi avec Apple ou Google seulement si tu veux sauvegarder tes séances dans ton compte.</p></div></div>
+        </div>
+        <div class="qa">
+          <button aria-expanded="false" aria-controls="qa4" id="qa4-b">Où sont stockés mes entraînements?<span class="x" aria-hidden="true"></span></button>
+          <div class="a" id="qa4" role="region" aria-labelledby="qa4-b"><div><p>Sur ton iPhone. Sans compte, tes séances ne le quittent jamais. Avec un compte, une copie de sauvegarde est enregistrée après chaque entraînement, et toi seul peux la lire. Lis la <a href="privacy-fr.html" style="text-decoration:underline">politique de confidentialité</a>.</p></div></div>
+        </div>
+        <div class="qa">
+          <button aria-expanded="false" aria-controls="qa5" id="qa5-b">Kilogrammes ou livres?<span class="x" aria-hidden="true"></span></button>
+          <div class="a" id="qa5" role="region" aria-labelledby="qa5-b"><div><p>L’un ou l’autre. Choisis à la configuration, et change quand tu veux dans Préférences.</p></div></div>
+        </div>
+        <div class="qa">
+          <button aria-expanded="false" aria-controls="qa6" id="qa6-b">Comment annuler Premium?<span class="x" aria-hidden="true"></span></button>
+          <div class="a" id="qa6" role="region" aria-labelledby="qa6-b"><div><p>Quand tu veux, dans les Réglages de ton iPhone, sous Abonnements. Avec le forfait annuel, annule avant la fin de l’essai de 7 jours et rien ne te sera facturé.</p></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7. last call -->
+  <section class="cta-wrap" id="get" aria-labelledby="cta-title">
+    <div class="cta">
+      <div class="grain" aria-hidden="true"></div>
+      <div class="cta-text">
+        <img src="assets/img/app-icon.png?v=20261029" alt="">
+        <h2 id="cta-title">Prêt à arrêter de deviner?</h2>
+        <a class="btn" href="#get" data-store>Sur l’App Store en décembre</a>
+      </div>
+      <div class="cta-art" aria-hidden="true">
+        <div class="big-widget">
+          <small>CETTE SEMAINE</small>
+          <p class="big">3<em>sur 4</em></p>
+          <p>Plus qu’un. Le travail régulier finit par compter.</p>
+          <div class="weeks"><i style="height:45%"></i><i class="lit" style="height:60%"></i><i class="lit" style="height:60%"></i><i style="height:30%"></i><i class="lit" style="height:75%"></i><i class="lit" style="height:60%"></i><i class="lit" style="height:90%"></i><i class="lit" style="height:75%"></i><i style="height:45%"></i><i class="lit" style="height:75%"></i><i class="lit" style="height:90%"></i><i class="lit" style="height:100%"></i></div>
+          <div class="plan-line"><span>plan 4</span></div>
+        </div>
+        <div class="cta-phone"><div data-phone="mini"></div></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site-footer">
+  <div class="foot-top">
+    <!-- the App Store QR code takes the logo's place once there's a store link -->
+    <div class="qr" hidden><img src="assets/img/app-icon.png?v=20261029" alt=""><span>App Store QR code at launch</span></div>
+    <a class="logo foot-logo" href="#top" aria-label="Stedy, retour en haut"><img src="assets/img/logo-sisyphus.png?v=20261029" width="32" height="40" alt=""><span>Stedy</span></a>
+    <div class="foot-cols">
+      <div><p>Stedy</p><ul><li><a href="#features">Fonctions</a></li><li><a href="#plans">Gratuit et Premium</a></li><li><a href="#faq">Questions</a></li></ul></div>
+      <div><p>Aide</p><ul><li><a href="mailto:abdallah@stedyy.com">Soutien</a></li><li><a href="privacy-fr.html">Politique de confidentialité</a></li><li><a href="terms-fr.html">Conditions d’utilisation</a></li><li><a href="health-data.html" hreflang="en" lang="en">Consumer Health Data</a></li></ul></div>
+      <!-- shown once the accounts exist -->
+      <div hidden><p>Follow</p><ul><li><a href="#" aria-disabled="true">TikTok</a></li><li><a href="#" aria-disabled="true">Instagram</a></li></ul></div>
+    </div>
+  </div>
+  <div class="foot-legal">
+    <p>© 2026 Stedy. Créé par Abdallah Almansy.</p>
+    <p>Stedy est un journal d’entraînement. Il ne donne pas d’avis médical; consulte un professionnel avant de commencer un nouveau programme.<br>Apple, iPhone, Apple Health et App Store sont des marques de commerce d’Apple Inc.</p>
+  </div>
+</footer>
+
+<script type="module" src="assets/site.js?v=20261126"></script>
+</body>
+</html>

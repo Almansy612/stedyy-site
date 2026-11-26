@@ -47,7 +47,7 @@
 <!-- ?v= is the release: change it whenever a file it's on changes (here, in site.css, site.js, plate3d.js,
      privacy.html and terms.html), so browsers fetch the new files with the new page instead of reusing
      their cached copies for up to 10 minutes (GitHub Pages' max-age) -->
-<link rel="stylesheet" href="assets/site.css?v=20261029">
+<link rel="stylesheet" href="assets/site.css?v=20261126">
 <!-- three.js (pinned) draws the 3D weight plate; plate3d.js imports it by these names -->
 <script type="importmap">
 { "imports": {
@@ -226,6 +226,24 @@
   <section class="section" id="features" aria-labelledby="features-title">
     <h2 class="sr-only" id="features-title">Ce que fait Stedy</h2>
     <ul class="rail" data-rail tabindex="0" aria-label="Fonctions, fais défiler de côté pour en voir plus">
+      <li class="panel">
+        <span class="icon-orb"><svg><use href="#i-sparkle"/></svg></span>
+        <p class="copy"><b>Un plan qui s’adapte.</b> <span>L’assistant déplace la journée qui glisse.</span></p>
+        <div class="light" aria-hidden="true"></div>
+        <div class="mock" aria-hidden="true">
+          <div class="rework-mock">
+            <img class="flame" src="assets/img/flame.png?v=20261126" alt="">
+            <small>Assistant</small>
+            <p class="head"><b>Leg-Shoulder</b> a sauté deux rotations.</p>
+            <div class="tl">
+              <div><span>Lun 23</span><i class="first">Leg-Shoulder<em>était ven.</em></i></div>
+              <div><span>Mer 25</span><i>Chest-Bicep</i></div>
+              <div><span>Ven 27</span><i>Back-Tricep</i></div>
+            </div>
+            <div class="acts"><b>Compris</b><span>Annuler</span></div>
+          </div>
+        </div>
+      </li>
       <li class="panel">
         <span class="icon-orb"><svg><use href="#i-bolt"/></svg></span>
         <p class="copy"><b>Note en quelques secondes.</b> <span>Touche − ou +, puis Noter la série. Pensé pour une main, entre deux séries.</span></p>

@@ -6,7 +6,7 @@
 <script src="assets/lang.js?v=20261126"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Stedy : journal de musculation pour iPhone</title>
-<meta name="description" content="Stedy est un journal de musculation pour iPhone. Note chaque exercice en quelques touchers, vois ce qui a changé et, avec Premium, la charge à essayer la prochaine fois. Arrête de deviner. Progresse.">
+<meta name="description" content="Stedy est un journal de musculation pour iPhone. Grosse semaine? Une journée manquée? L’assistant de Stedy peut réajuster ton plan autour des jours où tu peux t’entraîner. Note chaque exercice en quelques touchers et vois ce qui a changé.">
 <!-- tells search engines the site's name (Stedy, also searched as Stedyy) and that it's an iPhone app -->
 <script type="application/ld+json">
 [{
@@ -36,7 +36,7 @@
 <meta property="og:site_name" content="Stedy">
 <meta property="og:url" content="https://stedyy.com/index-fr.html">
 <meta property="og:title" content="Stedy : journal de musculation pour iPhone">
-<meta property="og:description" content="Note chaque exercice en quelques touchers. Stedy montre ce qui a changé et, avec Premium, la charge à essayer la prochaine fois. Pour iPhone.">
+<meta property="og:description" content="Grosse semaine? Une journée manquée? L’assistant de Stedy peut réajuster ton plan autour des jours où tu peux t’entraîner. Note chaque exercice et vois ce qui a changé. Pour iPhone.">
 <meta property="og:image" content="https://stedyy.com/assets/img/og-icon.png?v=20261029">
 <meta name="twitter:card" content="summary">
 <!-- the app icon, Sisyphus on pottery cream (D-112), as the tab icon and the iPhone "Add to Home Screen" icon -->
@@ -195,8 +195,8 @@
 
       <div class="hero-copy">
         <p class="eyebrow-badge"><i><svg><use href="#i-heart-fill"/></svg></i>Compatible avec Santé d’Apple</p>
-        <h1>Arrête de deviner. Progresse.</h1>
-        <p class="lead">Note chaque exercice en quelques touchers. Stedy montre ce qui a changé et, avec Premium, la charge à essayer la prochaine fois.</p>
+        <h1>Grosse semaine?<br>Une journée manquée?</h1>
+        <p class="lead">Ça arrive à tout le monde. L’assistant de Stedy peut réajuster ton plan autour des jours où tu peux t’entraîner, pour continuer d’avancer.</p>
         <a class="btn" href="#get" data-store>Sur l’App Store en décembre</a>
       </div>
 
@@ -328,6 +328,7 @@
           <li><svg><use href="#i-list"/></svg><div><b>Saisie illimitée</b><span>Chaque exercice, série et jour de repos, avec tout ton historique.</span></div></li>
           <li><svg><use href="#i-chart"/></svg><div><b>Ta progression d’un coup d’œil</b><span>L’état de chaque exercice : en hausse, stable ou plus léger que d’habitude.</span></div></li>
           <li><svg><use href="#i-timer"/></svg><div><b>Minuterie de repos et Santé</b><span>Un décompte dans la Dynamic Island, et tes entraînements enregistrés dans Santé.</span></div></li>
+          <li><svg><use href="#i-check"/></svg><div><b>Un plan qui continue</b><span>Manque une journée, et ta rotation reprend là où tu t’es arrêté.</span></div></li>
           <li><svg><use href="#i-cloud"/></svg><div><b>Sauvegardes</b><span>Exporte un fichier quand tu veux, ou connecte-toi pour sauvegarder dans ton compte.</span></div></li>
         </ul>
         <a class="btn" href="#get">Commencer gratuitement</a>
@@ -340,6 +341,7 @@
           <li><svg><use href="#i-sparkle"/></svg><div><b>Ta prochaine charge</b><span>Une charge suggérée quand tu l’as méritée, avec la raison.</span></div></li>
           <li><svg><use href="#i-chart"/></svg><div><b>Aide aux plateaux</b><span>Quoi essayer quand un exercice ne monte plus.</span></div></li>
           <li><svg><use href="#i-chat"/></svg><div><b>L’assistant</b><span>Pose tes questions sur ton entraînement; les réponses se font sur ton iPhone. Nécessite Apple Intelligence.</span></div></li>
+          <li><svg><use href="#i-widget"/></svg><div><b>Réajustements d’horaire</b><span>Quand une journée glisse sans cesse, l’assistant la déplace vers un jour où tu t’entraînes.</span></div></li>
           <li><svg><use href="#i-palette"/></svg><div><b>Bilans, widgets et thèmes</b><span>Ton trimestre en cartes à faire défiler, deux widgets d’écran d’accueil et trois autres thèmes de couleur.</span></div></li>
         </ul>
         <a class="btn" href="#get">Essayer 7 jours gratuits</a>
@@ -433,8 +435,12 @@
           <div class="a" id="qa1" role="region" aria-labelledby="qa1-b"><div><p>Oui. La saisie, tout ton historique, ta progression, la minuterie de repos, Santé et les sauvegardes sont gratuits, sans limite de temps. Premium ajoute l’accompagnement.</p></div></div>
         </div>
         <div class="qa">
+          <button aria-expanded="false" aria-controls="qa7" id="qa7-b">Et si je manque une journée?<span class="x" aria-hidden="true"></span></button>
+          <div class="a" id="qa7" role="region" aria-labelledby="qa7-b"><div><p>Rien ne se brise. Ta rotation reprend là où tu t’es arrêté, et il n’y a aucune série à perdre. Avec Premium, quand la même journée glisse sans cesse, l’assistant la déplace vers un jour où tu t’entraînes et te montre ce qui a changé, avec un toucher pour annuler.</p></div></div>
+        </div>
+        <div class="qa">
           <button aria-expanded="false" aria-controls="qa2" id="qa2-b">Qu’est-ce que Premium ajoute?<span class="x" aria-hidden="true"></span></button>
-          <div class="a" id="qa2" role="region" aria-labelledby="qa2-b"><div><p>La charge à essayer pour chaque exercice, de l’aide quand un exercice stagne, l’assistant d’entraînement, ton bilan trimestriel, deux widgets d’écran d’accueil et d’autres thèmes de couleur. C’est 7,99 $ par mois, ou 59,99 $ par an avec un essai gratuit de 7 jours.</p></div></div>
+          <div class="a" id="qa2" role="region" aria-labelledby="qa2-b"><div><p>La charge à essayer pour chaque exercice, de l’aide quand un exercice stagne, des réajustements d’horaire quand une journée glisse sans cesse, l’assistant d’entraînement, ton bilan trimestriel, deux widgets d’écran d’accueil et d’autres thèmes de couleur. C’est 7,99 $ par mois, ou 59,99 $ par an avec un essai gratuit de 7 jours.</p></div></div>
         </div>
         <div class="qa">
           <button aria-expanded="false" aria-controls="qa3" id="qa3-b">Ai-je besoin d’un compte?<span class="x" aria-hidden="true"></span></button>
@@ -462,7 +468,7 @@
       <div class="grain" aria-hidden="true"></div>
       <div class="cta-text">
         <img src="assets/img/app-icon.png?v=20261029" alt="">
-        <h2 id="cta-title">Prêt à arrêter de deviner?</h2>
+        <h2 id="cta-title">Prêt pour un plan qui te suit?</h2>
         <a class="btn" href="#get" data-store>Sur l’App Store en décembre</a>
       </div>
       <div class="cta-art" aria-hidden="true">
